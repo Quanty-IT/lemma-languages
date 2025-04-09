@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h2>Home</h2>
+    <h2>Home 123</h2>
     
     <a href="{{ route('administrator.teachers') }}">Professores</a><br>
     <a href="{{ route('administrator.students') }}">Alunos</a><br>
