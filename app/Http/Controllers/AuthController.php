@@ -17,12 +17,21 @@ class AuthController extends Controller
     {
         $credentials = $request->validated();
 
-        if(Auth::guard('admin')->attempt($credentials)){
+        if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('administrator.home')->with('status','Login realizado com sucesso');
+            return redirect()->route('administrator.home')->with('status', 'Login realizado com sucesso.');
         }
 
-        return back()->withInput()->with('status','Login inválido');
+        return back()->withInput()->with('status', 'Email ou senha inválidos.');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('status', 'Deslogado com sucesso');
     }
 }
