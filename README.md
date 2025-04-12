@@ -1,66 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 align="center" style="font-weight: bold;">Lemma Languages 🇧🇷🇺🇸</h1>
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+ <a href="#technologies">Technologies</a> • 
+ <a href="#description">Description</a> • 
+ <a href="#requirements">Requirements</a> • 
+ <a href="#installation">Installation</a> •
+ <a href="#commands">Commands</a> •
+ <a href="#extensions">Extensions</a> •
+ <a href="#collaborators">Collaborators</a>
 </p>
 
-## About Laravel
+<h2 id="technologies">💻 Technologies</h2>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![Static Badge](https://img.shields.io/badge/php%20-%20%23777BB4?style=for-the-badge&logo=php&color=%23000000) ![Static Badge](https://img.shields.io/badge/laravel%20-%20%23FF2D20?style=for-the-badge&logo=laravel&color=%23000000) ![Static Badge](https://img.shields.io/badge/sqlite%20-%20%23003B57?style=for-the-badge&logo=sqlite&logoColor=%23003B57&color=%23000000)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<h2 id="description">📚 Description</h2>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The <strong>Lemma Languages</strong> project is a management system designed for language schools. It provides a full interface for administrators to control students, teachers, and their interactions over the months.
 
-## Learning Laravel
+<b>Main features:</b>
+<ul>
+  <li>Register, update, list and delete teachers and students;</li>
+  <li>Each registered teacher receives login access to the system;</li>
+  <li>Teachers can monthly submit:
+    <ul>
+      <li>The total class hours given per student;</li>
+      <li>The content covered in each session.</li>
+    </ul>
+  </li>
+  <li>The admin dashboard gets automatically updated with:
+    <ul>
+      <li>The total amount paid to each teacher (considering all their students);</li>
+      <li>The financial breakdown: how much stays with the teacher (e.g. 70%) and how much goes to the school (e.g. 30%).</li>
+    </ul>
+  </li>
+</ul>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<b>Relationship model:</b>
+<ul>
+  <li>Each student is linked to a single teacher;</li>
+  <li>Each teacher can be responsible for multiple students.</li>
+</ul>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<h2 id="requirements">📋 Requirements</h2>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP
+- Composer
 
-## Laravel Sponsors
+<h2 id="installation">⚙️ Installation</h2>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- 1: Clone this repository: `git clone https://github.com/Quanty-IT/lemma-languages.git`;
+- 2: Create a `.env` file from the `.env.example` file;
+- 3: Fill in all the necessary variables in the `.env`;
+- 4: Install the dependencies, running the command: `composer install`;
+- 5: Run the migrations, running the command: `php artisan migrate`;
+- 6: Run the application, running the command: `php artisan serve`
 
-### Premium Partners
+<h2 id="commands">💡 Useful Commands</h2>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+<ul>
+  <li>Create a new view: <code>php artisan make:view name-here</code></li>
+  <li>Create a new controller: <code>php artisan make:controller NameHereController</code></li>
+  <li>Create a new model: <code>php artisan make:model NameHere</code></li>
+  <li>Create a new migration: <code>php artisan make:migration create_table_name_here</code></li>
+  <li>Run the migrations: <code>php artisan migrate</code></li>
+  <li>Rollback the last migration: <code>php artisan migrate:rollback</code></li>
+</ul>
 
-## Contributing
+<h2 id="extensions">🔌 Recommended Extensions</h2>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<ul>
+  <li>
+    <strong><a href="https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client">PHP Intelephense</a></strong> — Powerful IntelliSense, autocompletion and validation for PHP
+  </li>
+  <li>
+    <strong><a href="https://marketplace.visualstudio.com/items?itemName=shufo.vscode-blade-formatter">Laravel Blade Formatter</a></strong> — Automatically formats Blade files (.blade.php)
+  </li>
+  <li>
+    <strong><a href="https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel-blade">Laravel Blade Snippets</a></strong> — Useful snippets to speed up Blade development
+  </li>
+  <li>
+    <strong><a href="https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite">SQLite Viewer</a></strong> — View and edit the SQLite database directly from VS Code
+  </li>
+</ul>
 
-## Code of Conduct
+<h2 id="collaborators">🤝 Collaborators</h2>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/victorozoterio">
+        <img src="https://avatars.githubusercontent.com/u/165734095?v=4" width="100px;" alt="Victor Ozoterio Profile Picture"/><br>
+        <sub>
+          <a href="https://github.com/victorozoterio">
+          Victor Ozoterio</a>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Murilocampoos">
+        <img src="https://avatars.githubusercontent.com/u/95322404?v=4" width="100px;" alt="Murilo Campos Profile Picture"/><br>
+        <sub>
+          <a href="https://github.com/Murilocampoos">
+          Murilo Campos</a>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/bds-dat">
+        <img src="https://avatars.githubusercontent.com/u/200520493?v=4" width="100px;" alt="Bianca Disanti Profile Picture"/><br>
+        <sub>
+          <a href="https://github.com/bds-dat">
+          Bianca Disanti</a>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/PedroHDenny">
+        <img src="https://avatars.githubusercontent.com/u/130395012?v=4" width="100px;" alt="Pedro Denny Profile Picture"/><br>
+        <sub>
+          <a href="https://github.com/PedroHDenny">
+          Pedro Denny</a>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/MarceloASandy">
+        <img src="https://avatars.githubusercontent.com/u/178934793?v=4" width="100px;" alt="Marcelo Sandy Profile Picture"/><br>
+        <sub>
+          <a href="https://github.com/MarceloASandy">
+          Marcelo Sandy</a>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/marlon-greg">
+        <img src="https://avatars.githubusercontent.com/u/128714421?v=4" width="100px;" alt="Marlon Fanger Profile Picture"/><br>
+        <sub>
+          <a href="https://github.com/marlon-greg">
+          Marlon Fanger</a>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
