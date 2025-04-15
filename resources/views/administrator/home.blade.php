@@ -7,13 +7,48 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Lemma - Soluções em Linguística</title>
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+
+  
 </head>
 
 <body>
-    <h2>Home</h2>
+
+    {{-- Título Home fora da caixa --}}
+    <div class="title">Home </div>
     
-    <a href="{{ route('administrator.teachers') }}">Professores</a><br>
-    <a href="{{ route('administrator.students') }}">Alunos</a><br>
+        <div class="center-box">
+            <a href="{{ route('administrator.teachers') }}">
+                <button class="btn">Professores</button>
+            </a>
+            <a href="{{ route('administrator.students') }}">
+                <button class="btn">Alunos</button>
+            </a>
+        </div>
+
+        <hr>
+
+        {{-- Visão Geral embaixo dos botões --}}
+        <div class="overview">
+            <h3>Visão Geral</h3>
+
+            <div class="stat">
+                <span>Professores cadastrados:</span>
+                <span>: <strong>{{ $professoresCount ?? '16' }}</strong></span>
+            </div>
+
+            <div class="stat">
+                <span>Alunos cadastrados:</span>
+                <span>: <strong>{{ $alunosCount ?? '250' }}</strong></span>
+            </div>
+        </div>
+    </div>
+
 </body>
+<footer>
+    <div class="footer">
+        <p>© 2025 Lemma - Soluções em Linguística. - QuantIT Todos os direitos reservados.</p>
+    </div>
+
 
 </html>
