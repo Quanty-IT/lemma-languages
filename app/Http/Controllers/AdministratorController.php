@@ -12,7 +12,8 @@ class AdministratorController extends Controller
         return view('administrator.home');
     }
     
-    public function login(){
+    public function login()
+    {
         return view('login');
     }
 
