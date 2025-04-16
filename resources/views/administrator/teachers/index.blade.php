@@ -10,9 +10,17 @@
 </head>
 
 <body>
-    <h2>Professores</h2>
+    <h2>Professores</h2><hr>
     
     <a href="{{ route('administrator.home') }}">Home</a><br>
+    <a href="{{ route('administrator.teachers.create')}}">Cadastrar</a><hr>
+    
+    <ul>
+        @foreach ($teachers as $teacher)
+    <li>{{ $teacher->name }} - {{ $teacher->email }}</li>
+        @endforeach
+    </ul>
+
 </body>
 
 </html>
