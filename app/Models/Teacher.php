@@ -9,22 +9,28 @@ class Teacher extends Model
 {
     use HasFactory;
 
-    // Tabela associada ao model, se diferente do padrão
     protected $table = 'teachers';
 
-    // Campos preenchíveis
     protected $fillable = [
         'name',
         'phone',
         'email',
+        'languages',
         'availability',
-        'hourly',
-        'percentage',
+        'hourly_rate',
+        'commission',
         'pix',
         'notes',
+        'password',
     ];
 
-    // Se necessário, você pode personalizar a chave primária e outros atributos:
+    protected $casts = [
+        'availability' => 'array',
+    ];
+
+    // Se necessário personalizar a chave primária e outros atributos:
     // protected $primaryKey = 'id';
-    // public $timestamps = false; // Se não estiver usando created_at e updated_at
+    public $timestamps = true;
 }
+
+?>

@@ -19,14 +19,11 @@ Route::middleware(['auth:admin'])->group(function(){
     Route::get('/teachers/create', [TeacherController::class, 'create'])->name('administrator.teachers.create');
     Route::post('/teachers', [TeacherController::class, 'store'])->name('administrator.teachers.store');
 
-// Visualizar detalhes do professor
     Route::get('/teachers/{id}', [TeacherController::class, 'show'])->name('administrator.teachers.show');
 
-// Editar professor
     Route::get('/teachers/{id}/edit', [TeacherController::class, 'edit'])->name('administrator.teachers.edit');
     Route::put('/teachers/{id}', [TeacherController::class, 'update'])->name('administrator.teachers.update');
 
-// Deletar professor
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy'])->name('administrator.teachers.destroy');
 });
 
