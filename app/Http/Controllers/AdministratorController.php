@@ -20,7 +20,7 @@ class AdministratorController extends Controller
     public function teachers()
     {
         // Carregar a VIEW
-        return view('administrator.teachers');
+        return view('administrator.teachers.index');
     }
 
     public function students()
