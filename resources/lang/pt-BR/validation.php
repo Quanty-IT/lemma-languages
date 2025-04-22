@@ -129,7 +129,7 @@ return [
         'unique' => 'Esse email já foi cadastrado.',
     ],
     'pix' => [
-        'unique' => 'Essa chave Pix já foi cadastrada.',
+        'unique' => 'Essa chave pix já foi cadastrada.',
     ],
     ],
 

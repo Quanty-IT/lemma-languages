@@ -21,19 +21,24 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
+        // Limpa o telefone antes de validar
+        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
+        $request->merge(['phone' => $rawPhone]);
+
         $request->validate([
-            'name' => 'required|string|max:255|unique:teachers,name',
-            'phone' => 'required|string|max:14|unique:teachers,phone',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:11|unique:teachers,phone',
             'email' => 'required|email|unique:teachers,email',
-            'availability' => 'nullable|array',
+            'availability' => 'required|array',
             'languages' => 'required|array',
-            'hourly_rate' => 'required|numeric',
+            'hourly_rate' => 'required|numeric|min:0',
             'commission' => 'required|numeric',
             'pix' => 'required|string|unique:teachers,pix',
             'notes' => 'nullable|string|max:1000',
         ]);
 
-        $generatedPassword = $request->name . '@1234';
+        $firstName = ucfirst(strtolower(explode(' ', trim($request->name))[0]));
+        $generatedPassword = $firstName . '@1234';
 
         $availability = implode(',', $request->input('availability', []));
         $languages = implode(',', $request->input('languages', []));
@@ -69,16 +74,20 @@ class TeacherController extends Controller
     public function update(Request $request, $id)
     {
         $teacher = Teacher::findOrFail($id); // Encontra o professor pelo ID
+        
+        // Limpa o telefone antes de validar
+        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
+        $request->merge(['phone' => $rawPhone]);
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:14',
+            'phone' => 'required|string|max:11|unique:teachers,phone,' . $teacher->id,
             'email' => 'required|email|unique:teachers,email,' . $teacher->id,
-            'availability' => 'nullable|array',
-            'languages' => 'array',
-            'hourly_rate' => 'required|numeric',
+            'availability' => 'required|array',
+            'languages' => 'required|array',
+            'hourly_rate' => 'required|numeric|min:0',
             'commission' => 'required|numeric',
-            'pix' => 'required|string',
+            'pix' => 'required|string|unique:teachers,pix' . $teacher->id,
             'notes' => 'nullable|string|max:1000',
         ]);
 
