@@ -14,7 +14,8 @@ class AdministratorController extends Controller
 <<<<<<< HEAD
 =======
     
-    public function login(){
+    public function login()
+    {
         return view('login');
     }
 >>>>>>> 5e7554bdbe479a1d7c99a1c62329f5018b7a3b9f
@@ -22,7 +23,7 @@ class AdministratorController extends Controller
     public function teachers()
     {
         // Carregar a VIEW
-        return view('administrator.teachers');
+        return view('administrator.teachers.index');
     }
 
     public function students()
