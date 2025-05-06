@@ -30,10 +30,10 @@ Route::middleware(['auth:admin'])->group(function(){
 });
 
 Route::middleware(['auth:admin'])->group(function(){
-    Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
-    Route::get('/', [AdministratorController::class, 'index'])->name('administrator.home');
-    Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
-    Route::prefix('administrator')->name('administrator.')->group(function () {
+Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
+Route::get('/', [AdministratorController::class, 'index'])->name('administrator.home');
+Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
+Route::prefix('administrator')->name('administrator.')->group(function () {
         Route::resource('students', StudentController::class);
     });
 });
