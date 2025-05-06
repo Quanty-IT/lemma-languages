@@ -11,14 +11,13 @@ class AdministratorController extends Controller
         // Carregar a VIEW
         return view('administrator.home');
     }
-<<<<<<< HEAD
-=======
+
     
     public function login()
     {
         return view('login');
     }
->>>>>>> 5e7554bdbe479a1d7c99a1c62329f5018b7a3b9f
+
 
     public function teachers()
     {

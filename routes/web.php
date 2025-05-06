@@ -28,10 +28,10 @@ Route::middleware(['auth:admin'])->group(function(){
 });
 
 Route::middleware(['auth:admin'])->group(function(){
-<<<<<<< HEAD
+
 Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
 });
-=======
-    Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
-});
->>>>>>> 191a33b6d95dc18e055e7e5b82b63b2fab8d85e2
+
+Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
+
+

@@ -1,93 +1,106 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lemma - Soluções em Linguística</title>
+@section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
 
-    <!-- jQuery e jQuery Mask - Biblioteca para aplicar máscaras -->
+    <!-- jQuery e jQuery Mask -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#phone').mask('(00) 00000-0000');
         });
     </script>
 </head>
 
 <body>
+    <h1 class="titulo">Cadastrar novo</h1>
 
-    <h2>Cadastrar novo</h2>
-    <hr>
-    <a href="{{ route('administrator.home') }}">Home</a><br>
-    <a href="{{ route('administrator.teachers.index') }}">Listar</a>
-    <hr>
+    <div class="top-buttons">
+        <a href="{{ route('administrator.home') }}" class="botao">Home</a>
+        <a href="{{ route('administrator.teachers.index') }}" class="botao">Listar</a>
+    </div>
 
-    <form method="POST" action="{{ route('administrator.teachers.store') }}">
-        @csrf
+    <div class="form-container">
+        <form method="POST" action="{{ route('administrator.teachers.store') }}">
+            @csrf
 
-        @if ($errors->any())
-            <div style="color: red;">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+            @if ($errors->any())
+                <div class="error-box">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <div class="form-group">
+                <label>Nome</label>
+                <input type="text" name="name" value="{{ old('name') }}" required>
             </div>
-        @endif
 
-        <label>Nome</label>
-        <input type="text" name="name" value="{{ old('name') }}" required><br><br>
+            <div class="form-group">
+                <label>Telefone</label>
+                <input type="text" id="phone" name="phone" maxlength="15" value="{{ old('phone') }}" required>
+            </div>
 
-        <label>Telefone</label>
-        <input type="text" id="phone" name="phone" maxlength="15" value="{{ old('phone') }}" required><br><br>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ old('email') }}">
+            </div>
 
-        <label>Email</label>
-        <input type="email" name="email" value="{{ old('email') }}"><br><br>
+            <div class="form-group">
+                <label>Idiomas</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="languages[]" value="ingles" {{ in_array('ingles', old('languages', [])) ? 'checked' : '' }}> Inglês</label>
+                    <label><input type="checkbox" name="languages[]" value="espanhol" {{ in_array('espanhol', old('languages', [])) ? 'checked' : '' }}> Espanhol</label>
+                    <label><input type="checkbox" name="languages[]" value="frances" {{ in_array('frances', old('languages', [])) ? 'checked' : '' }}> Francês</label>
+                    <label><input type="checkbox" name="languages[]" value="italiano" {{ in_array('italiano', old('languages', [])) ? 'checked' : '' }}> Italiano</label>
+                    <label><input type="checkbox" name="languages[]" value="portugues" {{ in_array('portugues', old('languages', [])) ? 'checked' : '' }}> Português</label>
+                </div>
+            </div>
 
-        <label>Idiomas</label><br>
-        <input type="checkbox" name="languages[]" value="ingles"
-            {{ in_array('ingles', old('languages', [])) ? 'checked' : '' }}> Inglês
-        <input type="checkbox" name="languages[]" value="espanhol"
-            {{ in_array('espanhol', old('languages', [])) ? 'checked' : '' }}> Espanhol
-        <input type="checkbox" name="languages[]" value="frances"
-            {{ in_array('frances', old('languages', [])) ? 'checked' : '' }}> Francês<br>
-        <input type="checkbox" name="languages[]" value="italiano"
-            {{ in_array('italiano', old('languages', [])) ? 'checked' : '' }}> Italiano
-        <input type="checkbox" name="languages[]" value="portugues"
-            {{ in_array('portugues', old('languages', [])) ? 'checked' : '' }}> Português<br><br>
+            <div class="form-group">
+                <label>Disponibilidade</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="availability[]" value="manha" {{ in_array('manha', old('availability', [])) ? 'checked' : '' }}> Manhã</label>
+                    <label><input type="checkbox" name="availability[]" value="tarde" {{ in_array('tarde', old('availability', [])) ? 'checked' : '' }}> Tarde</label>
+                    <label><input type="checkbox" name="availability[]" value="noite" {{ in_array('noite', old('availability', [])) ? 'checked' : '' }}> Noite</label>
+                </div>
+            </div>
 
-        <label>Disponibilidade</label><br>
-        <input type="checkbox" name="availability[]" value="manha"
-            {{ in_array('manha', old('availability', [])) ? 'checked' : '' }}> Manhã
-        <input type="checkbox" name="availability[]" value="tarde"
-            {{ in_array('tarde', old('availability', [])) ? 'checked' : '' }}> Tarde
-        <input type="checkbox" name="availability[]" value="noite"
-            {{ in_array('noite', old('availability', [])) ? 'checked' : '' }}> Noite<br><br>
+            <div class="form-group">
+                <label>Valor da hora (R$)</label>
+                <input type="number" name="hourly_rate" value="{{ old('hourly_rate') }}" min="0" required>
+            </div>
 
-        <label>Valor da hora (R$)</label>
-        <input type="number" name="hourly_rate" value="{{ old('hourly_rate') }}" min="0" required><br><br>
+            <div class="form-group">
+                <label>Repasse</label>
+                <select name="commission" required>
+                    <option value="">Selecione</option>
+                    <option value="30" {{ old('commission') == 30 ? 'selected' : '' }}>30%</option>
+                    <option value="25" {{ old('commission') == 25 ? 'selected' : '' }}>25%</option>
+                    <option value="20" {{ old('commission') == 20 ? 'selected' : '' }}>20%</option>
+                </select>
+            </div>
 
-        <label>Repasse</label>
-        <select name="commission" required>
-            <option value="">Selecione</option>
-            <option value="30" {{ old('commission') == 30 ? 'selected' : '' }}>30%</option>
-            <option value="25" {{ old('commission') == 25 ? 'selected' : '' }}>25%</option>
-            <option value="20" {{ old('commission') == 20 ? 'selected' : '' }}>20%</option>
-        </select><br><br>
+            <div class="form-group">
+                <label>Chave Pix</label>
+                <input type="text" name="pix" value="{{ old('pix') }}">
+            </div>
 
-        <label>Chave Pix</label>
-        <input type="text" name="pix" value="{{ old('pix') }}"><br><br>
+            <div class="form-group">
+                <label>Observações</label>
+                <textarea name="notes" rows="4">{{ old('notes') }}</textarea>
+            </div>
 
-        <label>Observações</label><br>
-        <textarea name="notes" rows="4" cols="30">{{ old('notes') }}</textarea><br><br>
-
-        <button type="submit">Cadastrar</button>
-    </form>
+            <div class="button-container">
+                <button type="submit">Cadastrar</button>
+            </div>
+        </form>
+    </div>
 
 </body>
 
-</html>
+@endsection
