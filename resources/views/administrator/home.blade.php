@@ -8,25 +8,24 @@
         <a href="{{ route('administrator.teachers.index') }}">
             <button class="btn">Professores</button>
         </a>
-        <a href="{{ route('administrator.students') }}">
+        <a href="{{ route('administrator.students.index') }}">
             <button class="btn">Alunos</button>
         </a>
     </div>
 
     <hr>
 
-    {{-- Visão Geral embaixo dos botões --}}
-    <div class="overview">
+        <div class="overview">
         <h3>Visão Geral</h3>
 
         <div class="stat">
             <span>Professores cadastrados:</span>
-            <span>: <strong>{{ $professoresCount ?? '16' }}</strong></span>
+            <span>: <strong>{{ $professoresCount }}</strong></span>
         </div>
 
         <div class="stat">
             <span>Alunos cadastrados:</span>
-            <span>: <strong>{{ $alunosCount ?? '250' }}</strong></span>
+            <span>: <strong>{{ $alunosCount }}</strong></span>
         </div>
     </div>
     </div>
