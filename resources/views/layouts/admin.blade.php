@@ -1,23 +1,17 @@
-@extends('layouts.admin')
-
-@section('content')
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<<<<<<< HEAD
-    <title>Lemma Idiomas</title>
-=======
-    <title>Lemma - Soluções em Linguística</title>
->>>>>>> 5e7554bdbe479a1d7c99a1c62329f5018b7a3b9f
+    
+
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    
+    <title>Lemma - Soluções em Línguistica</title>
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
 </head>
-
 <body>
-    <h2>Alunos</h2>
-
-    <a href="{{ route('administrator.home') }}">Home</a><br>
+    @yield('content')
 </body>
-
-@endsection
+</html>

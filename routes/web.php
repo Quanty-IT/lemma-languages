@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Administrator\StudentController;
 
 
 Route::middleware(['auth:admin'])->group(function(){
@@ -25,9 +26,11 @@ Route::middleware(['auth:admin'])->group(function(){
     Route::put('/teachers/{id}', [TeacherController::class, 'update'])->name('administrator.teachers.update');
 
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy'])->name('administrator.teachers.destroy');
+    
 });
 
 Route::middleware(['auth:admin'])->group(function(){
+<<<<<<< HEAD
 <<<<<<< HEAD
 Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
 });
@@ -35,3 +38,12 @@ Route::get('/students', [AdministratorController::class, 'students'])->name('adm
     Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
 });
 >>>>>>> 191a33b6d95dc18e055e7e5b82b63b2fab8d85e2
+=======
+Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
+Route::get('/', [AdministratorController::class, 'index'])->name('administrator.home');
+Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
+Route::prefix('administrator')->name('administrator.')->group(function () {
+        Route::resource('students', StudentController::class);
+    });
+});
+>>>>>>> fddd98ccb9b01109ba9a19944caaea17bf37d63b
