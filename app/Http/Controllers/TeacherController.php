@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
+
+    public function home()
+{
+    $students = Auth::guard('teacher')->user()->students;
+    return view('teacher.home', compact('students'));
+}
+
     public function index()
     {
         $teachers = Teacher::all();
@@ -74,7 +82,7 @@ class TeacherController extends Controller
     public function update(Request $request, $id)
     {
         $teacher = Teacher::findOrFail($id); // Encontra o professor pelo ID
-        
+
         // Limpa o telefone antes de validar
         $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
         $request->merge(['phone' => $rawPhone]);
@@ -110,12 +118,10 @@ class TeacherController extends Controller
     }
 
     public function destroy($id) // Encontra o professor pelo ID e o deleta
-    { 
+    {
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
 
         return redirect()->route('administrator.teachers.index')->with('success', 'Cadastro excluído');
     }
 }
-
-?>

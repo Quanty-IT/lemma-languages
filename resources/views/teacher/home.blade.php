@@ -1,0 +1,18 @@
+@extends('layouts.admin')
+
+@section('content')
+    <h2>Meus Alunos</h2>
+    <a href="{{ route('teacher.create') }}" class="btn btn-primary">Registrar</a>
+
+    @if ($students && $students->isNotEmpty())
+        <ul class="list-group">
+            @foreach ($students as $student)
+                <li class="list-group-item">
+                    <a href="{{ route('students.show', $student->id) }}">{{ $student->name }}</a>
+                </li>
+            @endforeach
+        </ul>
+    @else
+        <p>Você ainda não cadastrou alunos.</p>
+    @endif
+@endsection

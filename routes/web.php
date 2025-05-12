@@ -5,16 +5,20 @@ use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Administrator\StudentController;
+use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ActivityRecordController;
 
-
-Route::middleware(['auth:admin'])->group(function(){
+Route::middleware(['auth:admin'])->group(function () {
     Route::get('/', [AdministratorController::class, 'home'])->name('administrator.home');
 });
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login',[AuthController::class,'loginAttempt'])->name('auth');
+Route::post('/login', [AuthController::class, 'loginAttempt'])->name('auth');
+Route::get('/set-password', [PasswordController::class, 'showform'])->name('set.password');
+Route::post('/set-password', [PasswordController::class, 'storePassword'])->name('set.password.store');
 
-Route::middleware(['auth:admin'])->group(function(){
+
+Route::middleware(['auth:admin'])->group(function () {
     Route::get('/teachers', [TeacherController::class, 'index'])->name('administrator.teachers.index');
 
     Route::get('/teachers/create', [TeacherController::class, 'create'])->name('administrator.teachers.create');
@@ -26,24 +30,23 @@ Route::middleware(['auth:admin'])->group(function(){
     Route::put('/teachers/{id}', [TeacherController::class, 'update'])->name('administrator.teachers.update');
 
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy'])->name('administrator.teachers.destroy');
-    
 });
 
-Route::middleware(['auth:admin'])->group(function(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
+Route::middleware(['auth:teacher'])->group(function () {
+    Route::get('/teacher', [TeacherController::class, 'home'])->name('teacher.home');
+    Route::get('/teacher/create', [ActivityRecordController::class, 'create'])->name('teacher.create');
+    Route::post('/teacher', [ActivityRecordController::class, 'store'])->name('activity.store');
+    Route::get('/teacher/{id}/edit', [ActivityRecordController::class, 'edit'])->name('activity.edit');
+    Route::put('/teacher/{id}', [ActivityRecordController::class, 'update'])->name('activity.update');
+    Route::delete('/teacher/{record}', [ActivityRecordController::class, 'destroy'])->name('activity.destroy');
+    Route::get('/students/{student}', [ActivityRecordController::class, 'show'])->name('students.show');
 });
-=======
+
+Route::middleware(['auth:admin'])->group(function () {
     Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
-});
->>>>>>> 191a33b6d95dc18e055e7e5b82b63b2fab8d85e2
-=======
-Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
-Route::get('/', [AdministratorController::class, 'index'])->name('administrator.home');
-Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
-Route::prefix('administrator')->name('administrator.')->group(function () {
+    Route::get('/', [AdministratorController::class, 'index'])->name('administrator.home');
+    Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
+    Route::prefix('administrator')->name('administrator.')->group(function () {
         Route::resource('students', StudentController::class);
     });
 });
->>>>>>> fddd98ccb9b01109ba9a19944caaea17bf37d63b
