@@ -36,8 +36,8 @@ Route::middleware(['auth:teacher'])->group(function () {
     Route::get('/teacher', [TeacherController::class, 'home'])->name('teacher.home');
     Route::get('/teacher/create', [ActivityRecordController::class, 'create'])->name('teacher.create');
     Route::post('/teacher', [ActivityRecordController::class, 'store'])->name('activity.store');
-    Route::get('/teacher/{id}/edit', [ActivityRecordController::class, 'edit'])->name('activity.edit');
-    Route::put('/teacher/{id}', [ActivityRecordController::class, 'update'])->name('activity.update');
+    Route::get('/teacher/{record}/edit', [ActivityRecordController::class, 'edit'])->name('activity.edit');
+    Route::put('/teacher/{record}', [ActivityRecordController::class, 'update'])->name('activity.update');
     Route::delete('/teacher/{record}', [ActivityRecordController::class, 'destroy'])->name('activity.destroy');
     Route::get('/students/{student}', [ActivityRecordController::class, 'show'])->name('students.show');
 });

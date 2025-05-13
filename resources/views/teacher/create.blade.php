@@ -1,7 +1,11 @@
+@extends('layouts.admin')
+@section('content')
 <form method="POST" action="{{ route('activity.store') }}">
     @csrf
 
-    <a href="{{ route('teacher.home') }}">Home</a>
+    <a href="{{ route('teacher.home') }}" class="btn btn-primary">Home</a>
+    <br>
+    
 
     <label>Aluno</label>
     <select name="student_id" required>
@@ -34,4 +38,6 @@
 
     <button type="submit">Registrar</button>
 </form>
+
+@endsection
 

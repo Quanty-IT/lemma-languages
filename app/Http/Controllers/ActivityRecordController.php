@@ -47,13 +47,12 @@ class ActivityRecordController extends Controller
 
     public function edit(ActivityRecord $record)
     {
-        return view('activity.edit', compact('record'));
+        return view('teacher.edit', compact('record'));
     }
 
     public function update(Request $request, ActivityRecord $record)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
             'month' => 'required|string',
             'hours' => 'required|numeric',
             'content' => 'required|string',
@@ -61,7 +60,7 @@ class ActivityRecordController extends Controller
 
         $record->update($validated);
 
-        return redirect()->back()->with('success', 'Registro atualizado com sucesso.');
+        return redirect()->route('students.show', $record->student_id)->with('success', 'Registro atualizado com sucesso.');
     }
 
     public function destroy(ActivityRecord $record)

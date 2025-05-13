@@ -1,8 +1,19 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2>Meus Alunos</h2>
-    <a href="{{ route('teacher.create') }}" class="btn btn-primary">Registrar</a>
+    <h2>Home</h2>
+
+    <a href="{{ route('teacher.create') }}" class="btn btn-primary">Novo Registro</a>
+    <br>
+    <br>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <h2>Alunos com Registro</h2>
 
     @if ($students && $students->isNotEmpty())
         <ul class="list-group">

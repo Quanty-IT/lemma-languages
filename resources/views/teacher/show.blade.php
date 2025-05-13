@@ -37,6 +37,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Excluir</button>
                             </form>
+                            <a href="{{ route('activity.edit', $record->id) }}" class="btn btn-warning">Editar</a>
                     </tr>
                 @endforeach
             </tbody>
