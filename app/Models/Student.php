@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $fillable = [
-        'name', 'phone', 'email', 'availability', 'languages', 'goal', 'observation', 'teacher_id',
+        'name',
+        'phone',
+        'email',
+        'availability',
+        'languages',
+        'goal',
+        'observation',
+        'teacher_id',
     ];
 
     protected $casts = [
@@ -19,5 +26,10 @@ class Student extends Model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(\App\Models\Lesson::class);
     }
 }

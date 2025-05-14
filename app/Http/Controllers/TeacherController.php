@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Teacher;
 
 class TeacherController extends Controller
 {
+
+    public function home()
+    {
+        $students = Auth::guard('teacher')->user()->students;
+        return view('teacher.home', compact('students'));
+    }
+
     public function index()
     {
         $teachers = Teacher::all();
@@ -25,7 +33,7 @@ class TeacherController extends Controller
         $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
         $request->merge(['phone' => $rawPhone]);
 
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:11|unique:teachers,phone',
             'email' => 'required|email|unique:teachers,email',
@@ -37,35 +45,33 @@ class TeacherController extends Controller
             'notes' => 'nullable|string|max:1000',
         ]);
 
+        // Gera a senha padrão
         $firstName = ucfirst(strtolower(explode(' ', trim($request->name))[0]));
         $generatedPassword = $firstName . '@1234';
 
-        $availability = implode(',', $request->input('availability', []));
-        $languages = implode(',', $request->input('languages', []));
-
         Teacher::create([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
-            'availability' => $availability,
-            'languages' => $languages,
-            'hourly_rate' => $request->input('hourly_rate'),
-            'commission' => $request->input('commission'),
-            'pix' => $request->input('pix'),
-            'notes' => $request->input('notes'),
+            'name' => $data['name'],
+            'phone' => $data['phone'],
+            'email' => $data['email'],
+            'availability' => $data['availability'],
+            'languages' => $data['languages'],
+            'hourly_rate' => $data['hourly_rate'],
+            'commission' => $data['commission'],
+            'pix' => $data['pix'],
+            'notes' => $data['notes'],
             'password' => Hash::make($generatedPassword),
         ]);
 
         return redirect()->route('administrator.teachers.index')->with('success', 'Cadastro concluído');
     }
 
-    public function show($id) // Exibe os dados de um professor 
+    public function show($id)
     {
         $teacher = Teacher::findOrFail($id);
         return view('administrator.teachers.show', compact('teacher'));
     }
 
-    public function edit($id) // Exibe o form pra editar um professor
+    public function edit($id)
     {
         $teacher = Teacher::findOrFail($id);
         return view('administrator.teachers.edit', compact('teacher'));
@@ -73,8 +79,8 @@ class TeacherController extends Controller
 
     public function update(Request $request, $id)
     {
-        $teacher = Teacher::findOrFail($id); // Encontra o professor pelo ID
-        
+        $teacher = Teacher::findOrFail($id);
+
         // Limpa o telefone antes de validar
         $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
         $request->merge(['phone' => $rawPhone]);
@@ -109,13 +115,10 @@ class TeacherController extends Controller
         return redirect()->route('administrator.teachers.index')->with('success', 'Alterações salvas');
     }
 
-    public function destroy($id) // Encontra o professor pelo ID e o deleta
-    { 
+    public function destroy($id)
+    {
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
-
         return redirect()->route('administrator.teachers.index')->with('success', 'Cadastro excluído');
     }
 }
-
-?>

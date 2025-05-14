@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Administrator;
+use App\Models\Teacher;
 
 class AuthController extends Controller
 {
@@ -15,15 +19,44 @@ class AuthController extends Controller
 
     public function loginAttempt(LoginRequest $request)
     {
-        $credentials = $request->validated();
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $request->session()->regenerate();
+        $email = $request->email;
+        $password = $request->password;
 
-            return redirect()->route('administrator.home')->with('status', 'Login realizado com sucesso.');
+        // Verifica se é administrador
+        $admin = Administrator::where('email', $email)->first();
+        if ($admin) {
+            if (Hash::check($password, $admin->password)) {
+                Auth::guard('admin')->login($admin);
+                return redirect()->route('administrator.home');
+            } else {
+                return back()->withErrors(['password' => 'Senha inválida']);
+            }
         }
 
-        return back()->withInput()->with('status', 'Email ou senha inválidos.');
+        // Verifica se é professor
+        $prof = Teacher::where('email', $email)->first();
+        if ($prof) {
+            // Verifica a senha do professor
+            if (Hash::check($password, $prof->password)) {
+                // Se for o primeiro acesso, redireciona para a tela de redefinir senha
+                if ($prof->is_first_access) {
+                    session(['email' => $email]);
+                    return redirect()->route('set.password');
+                }
+
+                Auth::guard('teacher')->login($prof);
+                return redirect()->route('teacher.home');
+            } else {
+                return back()->withErrors(['password' => 'Senha inválida']);
+            }
+        }
+
+        return back()->withErrors(['email' => 'Email não encontrado']);
     }
 
     public function logout(Request $request)
