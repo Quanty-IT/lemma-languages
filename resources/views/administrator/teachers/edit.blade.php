@@ -3,7 +3,7 @@
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
 
-    <!-- jQuery e jQuery Mask - Biblioteca para aplicar máscaras -->
+    <!-- jQuery e jQuery Mask -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
@@ -50,9 +50,10 @@
             <input type="checkbox" name="languages[]" value="espanhol"
                 {{ in_array('espanhol', $selectedLanguages) ? 'checked' : '' }}> Espanhol
             <input type="checkbox" name="languages[]" value="frances"
-                {{ in_array('frances', $selectedLanguages) ? 'checked' : '' }}> Francês<br>
+                {{ in_array('frances', $selectedLanguages) ? 'checked' : '' }}> Francês
             <input type="checkbox" name="languages[]" value="italiano"
                 {{ in_array('italiano', $selectedLanguages) ? 'checked' : '' }}> Italiano
+            <br><br>
 
             <label>Disponibilidade</label><br>
             @php

@@ -44,13 +44,28 @@ class ForgotPasswordController extends Controller
         $user->reset_code_expires_at = now()->addMinutes(30);
         $user->save();
 
-        // Envio de email via Resend
-        Http::withToken(env('RESEND_API_KEY'))->post('https://api.resend.com/emails', [
+        // Preparar dados para envio de email
+        $firstName = explode(' ', trim($user->name))[0];
+        $capitalizeName = ucfirst(strtolower($firstName));
+        $tokenString = $code;
+        $tokenDigits = collect(str_split($code))
+            ->map(fn($digit) => "<div class='token-box'>{$digit}</div>")
+            ->implode('');
+
+        // Renderiza o template de email blade para HTML
+        $html = view('emails.forgot-password', compact('capitalizeName', 'tokenString', 'tokenDigits'))->render();
+
+        // Envia email via Resend
+        $response = Http::withToken(env('RESEND_API_KEY'))->post('https://api.resend.com/emails', [
             'from' => env('MAIL_FROM_ADDRESS'),
-            'to' => $admin->email,
-            'subject' => 'Código de Recuperação de Senha',
-            'text' => "Seu código de verificação é: $code. Ele expira em 30 minutos.",
+            'to' => $user->email,
+            'subject' => 'Redefinição de senha',
+            'html' => $html,
         ]);
+
+        if ($response->failed()) {
+            return back()->withErrors(['email' => 'Erro ao enviar email.']);
+        }
 
         // Armazena o email e o tipo do usuário na sessão
         session([

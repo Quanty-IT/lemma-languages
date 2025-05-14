@@ -32,4 +32,20 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const codeInput = document.getElementById('code');
+
+        // Remove espaços enquanto o usuário digita
+        codeInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\s+/g, '');
+        });
+
+        // Remove espaços ao colar texto
+        codeInput.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text');
+            this.value = text.replace(/\s+/g, '');
+        });
+    </script>
 @endsection

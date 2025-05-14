@@ -51,7 +51,7 @@
             <input type="checkbox" name="languages[]" value="espanhol" class="filter-language"
                 {{ in_array('espanhol', $selectedLanguages) ? 'checked' : '' }}> Espanhol
             <input type="checkbox" name="languages[]" value="frances" class="filter-language"
-                {{ in_array('frances', $selectedLanguages) ? 'checked' : '' }}> Francês<br>
+                {{ in_array('frances', $selectedLanguages) ? 'checked' : '' }}> Francês
             <input type="checkbox" name="languages[]" value="italiano" class="filter-language"
                 {{ in_array('italiano', $selectedLanguages) ? 'checked' : '' }}> Italiano
             <br><br>
@@ -123,7 +123,7 @@
                                         'selected' : '';
                                     teacherSelect.append(
                                         `<option value="${teacher.id}" ${selected}>${teacher.name}</option>`
-                                        );
+                                    );
                                 });
                                 teacherSelect.prop('disabled', false);
                             }
