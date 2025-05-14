@@ -119,4 +119,31 @@ class TeacherController extends Controller
         $teacher->delete();
         return redirect()->route('administrator.teachers.index')->with('success', 'Cadastro excluído');
     }
+
+    public function filter(Request $request)
+    {
+        $languages = $request->input('languages', []);
+        $availability = $request->input('availability', []);
+
+        $query = Teacher::query();
+
+        if (!empty($languages)) {
+            $query->where(function ($q) use ($languages) {
+                foreach ($languages as $lang) {
+                    $q->orWhereJsonContains('languages', $lang);
+                }
+            });
+        }
+
+        if (!empty($availability)) {
+            $query->where(function ($q) use ($availability) {
+                foreach ($availability as $slot) {
+                    $q->orWhereJsonContains('availability', $slot);
+                }
+            });
+        }
+
+        $teachers = $query->get(['id', 'name']);
+        return response()->json($teachers);
+    }
 }

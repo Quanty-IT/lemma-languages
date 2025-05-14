@@ -47,39 +47,35 @@
                 <div class="form-group">
                     <label>Idiomas</label>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" name="languages[]" value="ingles"
+                        <label><input type="checkbox" name="languages[]" value="ingles" class="filter-language"
                                 {{ in_array('ingles', old('languages', [])) ? 'checked' : '' }}> Inglês</label>
-                        <label><input type="checkbox" name="languages[]" value="espanhol"
+                        <label><input type="checkbox" name="languages[]" value="espanhol" class="filter-language"
                                 {{ in_array('espanhol', old('languages', [])) ? 'checked' : '' }}> Espanhol</label>
-                        <label><input type="checkbox" name="languages[]" value="frances"
+                        <label><input type="checkbox" name="languages[]" value="frances" class="filter-language"
                                 {{ in_array('frances', old('languages', [])) ? 'checked' : '' }}> Francês</label>
-                        <label><input type="checkbox" name="languages[]" value="italiano"
+                        <label><input type="checkbox" name="languages[]" value="italiano" class="filter-language"
                                 {{ in_array('italiano', old('languages', [])) ? 'checked' : '' }}> Italiano</label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Professor</label>
-                    <select name="teacher_id">
-                        <option value="">Selecione</option>
-                        @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                                {{ $teacher->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <label>Disponibilidade</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="availability[]" value="manha" class="filter-availability"
+                                {{ in_array('manha', old('availability', [])) ? 'checked' : '' }}> Manhã</label>
+                        <label><input type="checkbox" name="availability[]" value="tarde" class="filter-availability"
+                                {{ in_array('tarde', old('availability', [])) ? 'checked' : '' }}> Tarde</label>
+                        <label><input type="checkbox" name="availability[]" value="noite" class="filter-availability"
+                                {{ in_array('noite', old('availability', [])) ? 'checked' : '' }}> Noite</label>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Disponibilidade</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="availability[]" value="manha"
-                                {{ in_array('manha', old('availability', [])) ? 'checked' : '' }}> Manhã</label>
-                        <label><input type="checkbox" name="availability[]" value="tarde"
-                                {{ in_array('tarde', old('availability', [])) ? 'checked' : '' }}> Tarde</label>
-                        <label><input type="checkbox" name="availability[]" value="noite"
-                                {{ in_array('noite', old('availability', [])) ? 'checked' : '' }}> Noite</label>
-                    </div>
+                    <label>Professor</label>
+                    <select name="teacher_id" id="teacher-select" disabled>
+                        <option value="">Selecione</option>
+                        {{-- Será populado via JS --}}
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -102,6 +98,51 @@
             $(document).ready(function() {
                 // Máscara para telefone
                 $('#phone').mask('(00) 00000-0000');
+
+                function updateTeacherOptions() {
+                    let selectedLanguages = $('.filter-language:checked').map(function() {
+                        return this.value;
+                    }).get();
+                    let selectedAvailability = $('.filter-availability:checked').map(function() {
+                        return this.value;
+                    }).get();
+
+                    if (selectedLanguages.length > 0 && selectedAvailability.length > 0) {
+                        $.ajax({
+                            url: "{{ route('teachers.filter') }}",
+                            method: "GET",
+                            data: {
+                                languages: selectedLanguages,
+                                availability: selectedAvailability
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            success: function(teachers) {
+                                let teacherSelect = $('#teacher-select');
+                                teacherSelect.empty();
+                                teacherSelect.append('<option value="">Selecione</option>');
+
+                                teachers.forEach(function(teacher) {
+                                    teacherSelect.append(
+                                        `<option value="${teacher.id}">${teacher.name}</option>`
+                                    );
+                                });
+
+                                teacherSelect.prop('disabled', false);
+                            }
+                        });
+
+                    } else {
+                        $('#teacher-select').empty().append('<option value="">Selecione</option>').prop('disabled',
+                            true);
+                    }
+                }
+
+                $('.filter-language, .filter-availability').on('change', updateTeacherOptions);
+
+                // Executa no carregamento para popular se já houver valores antigos
+                updateTeacherOptions();
             });
         </script>
     </body>
