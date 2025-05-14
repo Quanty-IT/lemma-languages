@@ -1,19 +1,19 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdministratorController;
-use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Administrator\StudentController;
-use App\Http\Controllers\PasswordController;
-use App\Http\Controllers\LessonController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\SetPasswordController;
+use App\Http\Controllers\Administrators\AdministratorController;
+use App\Http\Controllers\Administrators\TeacherController;
+use App\Http\Controllers\Administrators\StudentController;
+use App\Http\Controllers\Teachers\LessonController;
 
 // Rota de login
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'loginAttempt'])->name('auth');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'loginAttempt'])->name('auth');
 
-// Rotas para admin
-Route::middleware(['auth:admin'])->group(function () {
+// Rotas para administrator
+Route::middleware(['auth:administrator'])->group(function () {
     Route::get('/', [AdministratorController::class, 'home'])->name('administrator.home');
 
     // Roteamento para professores
@@ -35,8 +35,8 @@ Route::middleware(['auth:admin'])->group(function () {
 });
 
 // Rota para configurar senha
-Route::get('/set-password', [PasswordController::class, 'showform'])->name('set.password');
-Route::post('/set-password', [PasswordController::class, 'storePassword'])->name('set.password.store');
+Route::get('/set-password', [SetPasswordController::class, 'showform'])->name('set.password');
+Route::post('/set-password', [SetPasswordController::class, 'storePassword'])->name('set.password.store');
 
 // Rotas para o professor (rota de ensino)
 Route::middleware(['auth:teacher'])->group(function () {

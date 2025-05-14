@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 @section('content')
 
     <div class="card">
@@ -15,12 +15,12 @@
 
             <button class="btn" type="submit">Confirmar</button>
 
-            @if($errors->any())
-            @foreach ($errors->all() as $error)
-            <p style="color: red;">
-                {{ $error }}
-            </p>
-            @endforeach
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <p style="color: red;">
+                        {{ $error }}
+                    </p>
+                @endforeach
             @endif
         </form>
     </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Administrator;
 use App\Models\Teacher;
 
-class AuthController extends Controller
+class LoginController extends Controller
 {
     public function index()
     {
-        return view('login');
+        return view('auth.login');
     }
 
     public function loginAttempt(LoginRequest $request)
@@ -28,10 +28,10 @@ class AuthController extends Controller
         $password = $request->password;
 
         // Verifica se é administrador
-        $admin = Administrator::where('email', $email)->first();
-        if ($admin) {
-            if (Hash::check($password, $admin->password)) {
-                Auth::guard('admin')->login($admin);
+        $administrator = Administrator::where('email', $email)->first();
+        if ($administrator) {
+            if (Hash::check($password, $administrator->password)) {
+                Auth::guard('administrator')->login($administrator);
                 return redirect()->route('administrator.home');
             } else {
                 return back()->withErrors(['password' => 'Senha inválida']);
@@ -61,7 +61,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
+        Auth::guard('administrator')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

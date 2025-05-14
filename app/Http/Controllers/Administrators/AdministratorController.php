@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrators;
 
 use App\Http\Controllers\Controller;
 use App\Models\Teacher;
@@ -19,7 +19,7 @@ class AdministratorController extends Controller
 
     public function login()
     {
-        return view('login');
+        return view('auth.login');
     }
 
 

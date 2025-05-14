@@ -15,11 +15,13 @@ class Lesson extends Model
         'language',
     ];
 
+    // Relacionamento com os alunos
     public function student()
     {
         return $this->belongsTo(Student::class);
     }
 
+    // Relacionamento com os professores
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);

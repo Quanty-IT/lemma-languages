@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Teachers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Lesson;
-use App\Models\Student;
-use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Lesson;
+use App\Models\Teacher;
+use App\Models\Student;
 
 class LessonController extends Controller
 {

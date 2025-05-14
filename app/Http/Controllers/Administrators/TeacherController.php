@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administrators;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -97,15 +98,12 @@ class TeacherController extends Controller
             'notes' => 'nullable|string|max:1000',
         ]);
 
-        $availability = implode(',', $request->input('availability', []));
-        $languages = implode(',', $request->input('languages', []));
-
         $teacher->update([
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
             'email' => $request->input('email'),
-            'availability' => $availability,
-            'languages' => $languages,
+            'availability' => $request->input('availability'),
+            'languages' => $request->input('languages'),
             'hourly_rate' => $request->input('hourly_rate'),
             'commission' => $request->input('commission'),
             'pix' => $request->input('pix'),

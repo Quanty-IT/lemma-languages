@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Teacher;
 
-class PasswordController extends Controller
+class SetPasswordController extends Controller
 {
     public function showForm(Request $request)
     {
@@ -17,7 +18,7 @@ class PasswordController extends Controller
             return redirect()->route('login')->withErrors(['email' => 'Email não encontrado na sessão']);
         }
 
-        return view('set-password', compact('email'));
+        return view('auth.set-password', compact('email'));
     }
 
     public function storePassword(Request $request)
