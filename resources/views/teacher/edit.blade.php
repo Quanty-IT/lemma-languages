@@ -9,17 +9,16 @@
         <br>
 
         <label>Aluno</label>
-        <select name="student_id" id="student_id" required>
-            @foreach ($students as $student)
-                <option value="{{ $student->id }}" {{ $lesson->student_id == $student->id ? 'selected' : '' }}>
-                    {{ $student->name }}
-                </option>
-            @endforeach
-        </select>
+        <!-- Campo apenas leitura para o aluno -->
+        <input type="text" value="{{ $student->name }}" disabled class="form-control" />
 
         <label>Idioma</label>
         <select name="language" id="language" required>
             <option value="">Selecione o idioma</option>
+            @php
+                // Interseção dos idiomas que o professor pode ensinar e que o aluno quer aprender
+                $availableLanguages = array_intersect($teacherLanguages, $student->languages);
+            @endphp
             @foreach ($availableLanguages as $language)
                 <option value="{{ $language }}" {{ old('language', $lesson->language) == $language ? 'selected' : '' }}>
                     {{ $language }}
@@ -44,8 +43,8 @@
         </select>
 
         <label>Horas</label>
-        <input type="number" name="hours" id="hours" min="0" value="{{ old('hours', $lesson->hours) }}"
-            required>
+        <input type="number" name="hours" id="hours" min="0" max="99"
+            value="{{ old('hours', $lesson->hours) }}" required>
 
         <label>Conteúdo</label>
         <textarea name="content" required>{{ old('content', $lesson->content) }}</textarea>
@@ -55,20 +54,12 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Validação para garantir que o campo sempre seja um número positivo
             document.getElementById('hours').addEventListener('input', function() {
                 let value = this.value;
-
-                // Remover qualquer caractere que não seja número
                 value = value.replace(/[^0-9]/g, '');
-
-                // Remover zeros à esquerda
-                value = parseInt(value, 10); // Converte para número inteiro e remove zeros à esquerda
-
-                // Garantir que o valor seja positivo e corrigir se necessário
+                if (value.length > 2) value = value.slice(0, 2);
+                value = parseInt(value, 10);
                 if (isNaN(value) || value < 0) value = 0;
-
-                // Atualizar o valor do campo para garantir que é um número positivo e sem zeros à esquerda
                 this.value = value;
             });
         });

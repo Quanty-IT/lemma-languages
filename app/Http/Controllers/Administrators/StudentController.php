@@ -30,12 +30,12 @@ class StudentController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:11',
+            'phone' => 'required|string|max:11|unique:students,phone',
             'email' => 'required|email|unique:students,email',
             'availability' => 'array',
             'languages' => 'array',
-            'goal' => 'nullable|string',
-            'observation' => 'nullable|string',
+            'goal' => 'required|string',
+            'notes' => 'nullable|string|max:1000',
             'teacher_id' => 'required|exists:teachers,id',
         ]);
 
@@ -63,12 +63,12 @@ class StudentController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:11',
+            'phone' => 'required|string|max:11|unique:students,phone,' . $student->id,
             'email' => 'required|email|unique:students,email,' . $student->id,
-            'availability' => 'array',
-            'languages' => 'array',
-            'goal' => 'nullable|string',
-            'observation' => 'nullable|string',
+            'availability' => 'required|array',
+            'languages' => 'required|array',
+            'goal' => 'required|string',
+            'notes' => 'nullable|string|max:1000',
             'teacher_id' => 'required|exists:teachers,id',
         ]);
 

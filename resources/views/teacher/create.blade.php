@@ -10,16 +10,15 @@
         <label>Aluno</label>
         <select name="student_id" id="student_id" required>
             @foreach ($students as $student)
-                <option value="{{ $student->id }}">{{ $student->name }}</option>
+                <option value="{{ $student->id }}" data-languages="{{ json_encode($student->languages) }}">
+                    {{ $student->name }}
+                </option>
             @endforeach
         </select>
 
         <label>Idioma</label>
         <select name="language" id="language" required>
             <option value="">Selecione o idioma</option>
-            @foreach ($availableLanguages as $language)
-                <option value="{{ $language }}">{{ $language }}</option>
-            @endforeach
         </select>
 
         <label>Mês</label>
@@ -39,7 +38,7 @@
         </select>
 
         <label>Horas</label>
-        <input type="number" name="hours" id="hours" min="0" required>
+        <input type="number" name="hours" id="hours" min="0" max="99" required>
 
         <label>Conteúdo</label>
         <textarea name="content" required></textarea>
@@ -48,21 +47,47 @@
     </form>
 
     <script>
+        const teacherLanguages = @json($teacherLanguages);
+        const studentSelect = document.getElementById('student_id');
+        const languageSelect = document.getElementById('language');
+
+        function updateLanguages() {
+            const selectedOption = studentSelect.options[studentSelect.selectedIndex];
+            const studentLanguages = JSON.parse(selectedOption.getAttribute('data-languages'));
+
+            // Interseção entre os arrays (professor & aluno)
+            const availableLanguages = teacherLanguages.filter(lang => studentLanguages.includes(lang));
+
+            // Limpar select e colocar a opção padrão
+            languageSelect.innerHTML = '<option value="">Selecione o idioma</option>';
+
+            availableLanguages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang;
+                option.textContent = lang;
+                languageSelect.appendChild(option);
+            });
+        }
+
+        studentSelect.addEventListener('change', updateLanguages);
+
+        // Inicializa ao carregar a página
         document.addEventListener("DOMContentLoaded", function() {
-            // Validação para garantir que o campo sempre seja um número positivo
+            updateLanguages();
+
+            // Validação para garantir que o campo horas seja número positivo e max 2 dígitos
             document.getElementById('hours').addEventListener('input', function() {
                 let value = this.value;
 
-                // Remover qualquer caractere que não seja número
+                // Remove tudo que não for número
                 value = value.replace(/[^0-9]/g, '');
 
-                // Remover zeros à esquerda
-                value = parseInt(value, 10); // Converte para número inteiro e remove zeros à esquerda
+                // Limita a 2 caracteres
+                if (value.length > 2) value = value.slice(0, 2);
 
-                // Garantir que o valor seja positivo e corrigir se necessário
+                value = parseInt(value, 10);
                 if (isNaN(value) || value < 0) value = 0;
 
-                // Atualizar o valor do campo para garantir que é um número positivo e sem zeros à esquerda
                 this.value = value;
             });
         });

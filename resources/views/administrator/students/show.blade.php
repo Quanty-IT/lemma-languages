@@ -30,8 +30,8 @@
 
         <p><strong>Objetivo:</strong> {{ $student->goal }}</p>
 
-        @if ($student->observation)
-            <p><strong>Observações:</strong> {{ $student->observation }}</p>
+        @if ($student->notes)
+            <p><strong>Observações:</strong> {{ $student->notes }}</p>
         @endif
 
         <a href="{{ route('administrator.students.edit', $student->id) }}">Editar</a>

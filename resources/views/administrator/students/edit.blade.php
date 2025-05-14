@@ -53,8 +53,6 @@
                 {{ in_array('frances', $selectedLanguages) ? 'checked' : '' }}> Francês<br>
             <input type="checkbox" name="languages[]" value="italiano"
                 {{ in_array('italiano', $selectedLanguages) ? 'checked' : '' }}> Italiano
-            <input type="checkbox" name="languages[]" value="portugues"
-                {{ in_array('portugues', $selectedLanguages) ? 'checked' : '' }}> Português<br><br>
 
             <label>Professor</label><br>
             <select name="teacher_id">
@@ -83,7 +81,7 @@
             <textarea name="goal" rows="4" cols="30">{{ $student->goal }}</textarea><br><br>
 
             <label>Observações</label><br>
-            <textarea name="observation" rows="4" cols="30">{{ $student->observation }}</textarea><br><br>
+            <textarea name="notes" rows="4" cols="30">{{ $student->notes }}</textarea><br><br>
 
             <button type="submit">Salvar alterações</button>
         </form>

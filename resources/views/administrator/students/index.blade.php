@@ -18,15 +18,15 @@
         @if ($students->isEmpty())
             <p>Nenhum registro de alunos.</p>
         @else
-            @foreach ($students as $student)
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col" class="text-center">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($students as $student)
                         <tr>
                             <td>
                                 <div class="aluno-card">
@@ -52,9 +52,9 @@
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            @endforeach
+                    @endforeach
+                </tbody>
+            </table>
         @endif
     </div>
 @endsection

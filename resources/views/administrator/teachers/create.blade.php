@@ -55,8 +55,6 @@
                                 {{ in_array('frances', old('languages', [])) ? 'checked' : '' }}> Francês</label>
                         <label><input type="checkbox" name="languages[]" value="italiano"
                                 {{ in_array('italiano', old('languages', [])) ? 'checked' : '' }}> Italiano</label>
-                        <label><input type="checkbox" name="languages[]" value="portugues"
-                                {{ in_array('portugues', old('languages', [])) ? 'checked' : '' }}> Português</label>
                     </div>
                 </div>
 
@@ -74,7 +72,8 @@
 
                 <div class="form-group">
                     <label>Valor da hora (R$)</label>
-                    <input type="number" name="hourly_rate" min="0" value="{{ old('hourly_rate') }}" required>
+                    <input type="number" name="hourly_rate" min="0" max="99" value="{{ old('hourly_rate') }}"
+                        required>
                 </div>
 
                 <div class="form-group">
@@ -115,22 +114,8 @@
                     // Remover qualquer caractere que não seja número
                     value = value.replace(/[^0-9]/g, '');
 
-                    // Remover zeros à esquerda
-                    value = parseInt(value, 10);
-
-                    // Garantir que o valor seja positivo e corrigir se necessário
-                    if (isNaN(value) || value < 0) value = 0;
-
-                    // Atualizar o valor do campo para garantir que é um número positivo e sem zeros à esquerda
-                    $(this).val(value);
-                });
-
-                // Validação para garantir que o campo sempre seja um número positivo
-                $('#hours').on('input', function() {
-                    let value = $(this).val();
-
-                    // Remover qualquer caractere que não seja número
-                    value = value.replace(/[^0-9]/g, '');
+                    // Limita a até 2 caracteres (dois dígitos)
+                    if (value.length > 2) value = value.slice(0, 2);
 
                     // Remover zeros à esquerda
                     value = parseInt(value, 10);

@@ -13,24 +13,23 @@ class LessonController extends Controller
 {
     public function create()
     {
-        // ID do professor logado
         $teacherId = auth('teacher')->id();
 
-        // Buscar os idiomas que o professor pode ensinar
         $teacher = Teacher::find($teacherId);
-        $availableLanguages = $teacher->languages;
+        $teacherLanguages = $teacher->languages;  // Array de idiomas do professor
 
-        // Buscar todos os alunos associados ao professor logado
+        // Buscar alunos do professor, incluindo os idiomas que o aluno quer aprender
         $students = Student::where('teacher_id', $teacherId)->get();
 
-        return view('teacher.create', compact('students', 'availableLanguages'));
+        // Passa $teacherLanguages para a view junto com os alunos
+        return view('teacher.create', compact('students', 'teacherLanguages'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'month' => 'required|string',
-            'hours' => 'required|integer|min:1',
+            'hours' => 'required|integer|min:1|max:99',
             'content' => 'required|string',
             'student_id' => 'required|exists:students,id',
             'language' => 'required|string',
@@ -55,24 +54,21 @@ class LessonController extends Controller
 
     public function edit(Lesson $lesson)
     {
-        // ID do professor logado
         $teacherId = auth('teacher')->id();
-
-        // Buscar todos os alunos associados ao professor logado
-        $students = Student::where('teacher_id', $teacherId)->get();
-
-        // Buscar os idiomas que o professor pode ensinar
         $teacher = Teacher::find($teacherId);
-        $availableLanguages = $teacher->languages;
+        $teacherLanguages = $teacher->languages;  // Idiomas do professor
 
-        return view('teacher.edit', compact('lesson', 'students', 'availableLanguages'));
+        // Buscar o aluno da aula com seus idiomas
+        $student = Student::find($lesson->student_id);
+
+        return view('teacher.edit', compact('lesson', 'student', 'teacherLanguages'));
     }
 
     public function update(Request $request, Lesson $lesson)
     {
         $validated = $request->validate([
             'month' => 'required|string',
-            'hours' => 'required|numeric',
+            'hours' => 'required|integer|min:1|max:99',
             'content' => 'required|string',
             'language' => 'required|string',
         ]);

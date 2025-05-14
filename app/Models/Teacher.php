@@ -24,13 +24,10 @@ class Teacher extends Model implements Authenticatable
         'pix',
         'notes',
         'password',
-        'custom_password',
     ];
 
     protected $hidden = [
-        'custom_password',
         'password',
-        'remember_token',
     ];
 
     protected $casts = [

@@ -11,7 +11,6 @@
 
     <a href="{{ route('teacher.home') }}" class="btn btn-primary">Home</a>
 
-
     @if ($lessons->isEmpty())
         <p>Nenhum registro encontrado.</p>
     @else
@@ -38,6 +37,7 @@
                                 <button type="submit" class="btn btn-danger">Excluir</button>
                             </form>
                             <a href="{{ route('lesson.edit', $lesson->id) }}" class="btn btn-warning">Editar</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -14,7 +14,7 @@ class Student extends Model
         'availability',
         'languages',
         'goal',
-        'observation',
+        'notes',
         'teacher_id',
     ];
 

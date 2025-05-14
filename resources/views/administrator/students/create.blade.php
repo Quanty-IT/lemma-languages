@@ -55,8 +55,6 @@
                                 {{ in_array('frances', old('languages', [])) ? 'checked' : '' }}> Francês</label>
                         <label><input type="checkbox" name="languages[]" value="italiano"
                                 {{ in_array('italiano', old('languages', [])) ? 'checked' : '' }}> Italiano</label>
-                        <label><input type="checkbox" name="languages[]" value="portugues"
-                                {{ in_array('portugues', old('languages', [])) ? 'checked' : '' }}> Português</label>
                     </div>
                 </div>
 
@@ -91,7 +89,7 @@
 
                 <div class="form-group">
                     <label>Observações</label>
-                    <textarea name="observation" rows="4">{{ old('observation') }}</textarea>
+                    <textarea name="notes" rows="4">{{ old('notes') }}</textarea>
                 </div>
 
                 <div class="button-container">
