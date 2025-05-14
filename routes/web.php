@@ -10,7 +10,10 @@ use App\Http\Controllers\Teachers\LessonController;
 
 // Rota de login
 Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'loginAttempt'])->name('auth');
+Route::post('/login', [LoginController::class, 'login'])->name('auth');
+
+// Rota de logout
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rotas para administrator
 Route::middleware(['auth:administrator'])->group(function () {

@@ -1,8 +1,17 @@
 @extends('layouts.app')
+
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-    <div class="title">Home </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="title">Home</div>
+
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
 
     <div class="center-box">
         <a href="{{ route('administrator.teachers.index') }}">
@@ -28,11 +37,10 @@
             <span>: <strong>{{ $countStudents }}</strong></span>
         </div>
     </div>
-    </div>
 
-    </body>
     <footer>
         <div class="footer">
             <p>© 2025 Lemma - Soluções em Linguística. - QuantIT Todos os direitos reservados.</p>
         </div>
-    @endsection
+    </footer>
+@endsection

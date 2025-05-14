@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('content')
 
+@section('content')
     <div class="card">
         <h1>Definir senha</h1>
         <form method="POST" action="{{ route('set.password.store') }}">
@@ -24,5 +24,4 @@
             @endif
         </form>
     </div>
-
 @endsection

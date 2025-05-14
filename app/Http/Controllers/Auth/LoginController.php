@@ -17,7 +17,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function loginAttempt(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $request->validate([
             'email'    => 'required|email',
@@ -61,7 +61,12 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('administrator')->logout();
+        if (Auth::guard('administrator')->check()) {
+            Auth::guard('administrator')->logout();
+        } else if (Auth::guard('teacher')->check()) {
+            Auth::guard('teacher')->logout();
+        }
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
