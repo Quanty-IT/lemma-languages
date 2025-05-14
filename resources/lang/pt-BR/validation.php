@@ -132,5 +132,10 @@ return [
         'pix' => [
             'unique' => 'Essa chave pix já foi cadastrada.',
         ],
+        'password' => [
+            'regex' => 'A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial.',
+            'min' => 'A senha deve ter no mínimo 8 caracteres.',
+            'confirmed' => 'A confirmação da senha não confere.',
+        ],
     ],
 ];

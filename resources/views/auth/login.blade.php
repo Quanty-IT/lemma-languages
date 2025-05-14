@@ -21,7 +21,11 @@
                 <div class="form-group">
                     <label for="password">Senha:</label>
                     <input type="password" name="password" id="password" placeholder="Digite sua senha">
+                    <div style="margin-top: 5px;">
+                        <a href="{{ route('password.request') }}" style="font-size: 0.9em;">Esqueceu a senha?</a>
+                    </div>
                 </div>
+
                 <button type="submit">Entrar</button>
 
                 @if (session('status'))
