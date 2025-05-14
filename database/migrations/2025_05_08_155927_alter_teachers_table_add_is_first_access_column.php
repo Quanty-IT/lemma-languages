@@ -6,19 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::table('teachers', function (Blueprint $table) {
-            // Adiciona a coluna 'senha_personalizada' para armazenar a senha personalizada
-            $table->string('custom_password')->nullable(); 
+            $table->boolean('is_first_access')->default(true);
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('teachers', function (Blueprint $table) {
-            // Remove a coluna 'senha_personalizada' caso seja necessário desfazer a migration
-            $table->dropColumn('custom_password');
+            $table->dropColumn('is_first_access');
         });
     }
 };

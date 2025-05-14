@@ -105,7 +105,7 @@ return [
     'uploaded'             => 'O arquivo :attribute falhou ao ser carregado.',
     'url'                  => 'O campo :attribute deve ser uma URL válida.',
     'uuid'                 => 'O campo :attribute deve ser um UUID válido.',
-    
+
     'attributes' => [
         'name'         => 'nome',
         'phone'        => 'telefone',
@@ -116,23 +116,21 @@ return [
         'commission'   => 'repasse',
         'pix'          => 'chave Pix',
         'notes'        => 'observações',
+        'password'     => 'senha',
     ],
 
     'custom' => [
-    'name' => [
-        'unique' => 'Esse nome já foi cadastrado.',
+        'name' => [
+            'unique' => 'Esse nome já foi cadastrado.',
+        ],
+        'phone' => [
+            'unique' => 'Esse telefone já foi cadastrado.',
+        ],
+        'email' => [
+            'unique' => 'Esse email já foi cadastrado.',
+        ],
+        'pix' => [
+            'unique' => 'Essa chave pix já foi cadastrada.',
+        ],
     ],
-    'phone' => [
-        'unique' => 'Esse telefone já foi cadastrado.',
-    ],
-    'email' => [
-        'unique' => 'Esse email já foi cadastrado.',
-    ],
-    'pix' => [
-        'unique' => 'Essa chave pix já foi cadastrada.',
-    ],
-    ],
-
 ];
-
-?>

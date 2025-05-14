@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Teacher;
-use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::with('teacher')->get(); // Eager load the teacher
+        $students = Student::with('teacher')->get();
         return view('administrator.students.index', compact('students'));
     }
-    
+
 
     public function create()
     {
@@ -32,17 +32,17 @@ class StudentController extends Controller
             'languages' => 'array',
             'goal' => 'nullable|string',
             'observation' => 'nullable|string',
-            'teacher_id' => 'required|exists:teachers,id', // Validação do ID do professor
+            'teacher_id' => 'required|exists:teachers,id',
         ]);
 
-        $student = Student::create($data); // Passa o array $data diretamente
+        Student::create($data);
 
         return redirect()->route('administrator.students.index')->with('success', 'Aluno cadastrado com sucesso!');
     }
 
     public function show(Student $student)
     {
-        $student->load('teacher'); // Carrega os dados do professor
+        $student->load('teacher');
         return view('administrator.students.show', compact('student'));
     }
 
@@ -65,7 +65,7 @@ class StudentController extends Controller
             'teacher_id' => 'required|exists:teachers,id',
         ]);
 
-        $student->update($data); // Passa o array $data diretamente
+        $student->update($data);
         return redirect()->route('administrator.students.index')->with('success', 'Aluno atualizado com sucesso!');
     }
 

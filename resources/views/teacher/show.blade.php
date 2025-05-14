@@ -12,7 +12,7 @@
     <a href="{{ route('teacher.home') }}" class="btn btn-primary">Home</a>
 
 
-    @if ($activityRecords->isEmpty())
+    @if ($lessons->isEmpty())
         <p>Nenhum registro encontrado.</p>
     @else
         <table class="table table-bordered">
@@ -24,20 +24,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($activityRecords as $record)
+                @foreach ($lessons as $lesson)
                     <tr>
-                        <td>{{ $record->month }}</td>
-                        <td>{{ $record->hours }}</td>
-                        <td>{{ $record->content }}</td>
+                        <td>{{ $lesson->month }}</td>
+                        <td>{{ $lesson->hours }}</td>
+                        <td>{{ $lesson->content }}</td>
 
                         <td>
-                            <form action="{{ route('activity.destroy', $record->id) }}" method="POST" style="display:inline;"
+                            <form action="{{ route('lesson.destroy', $lesson->id) }}" method="POST" style="display:inline;"
                                 onsubmit="return confirm('Tem certeza que deseja excluir este registro?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Excluir</button>
                             </form>
-                            <a href="{{ route('activity.edit', $record->id) }}" class="btn btn-warning">Editar</a>
+                            <a href="{{ route('lesson.edit', $lesson->id) }}" class="btn btn-warning">Editar</a>
                     </tr>
                 @endforeach
             </tbody>

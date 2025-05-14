@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -34,13 +34,13 @@ class Teacher extends Model implements Authenticatable
     ];
 
     protected $casts = [
+        'languages' => 'array',
         'availability' => 'array',
     ];
 
-    // Se necessário personalizar a chave primária e outros atributos:
-    // protected $primaryKey = 'id';
     public $timestamps = true;
 
+    // Relacionamento com os alunos
     public function students()
     {
         return $this->hasMany(Student::class);
