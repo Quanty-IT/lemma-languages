@@ -31,62 +31,70 @@
 
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" name="name" required>
+                    <input type="text" name="name" value="{{ old('name') }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Telefone</label>
-                    <input type="text" id="phone" name="phone" maxlength="15" required>
+                    <input type="text" id="phone" name="phone" maxlength="15" value="{{ old('phone') }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email">
+                    <input type="email" name="email" value="{{ old('email') }}">
                 </div>
 
                 <div class="form-group">
                     <label>Idiomas</label>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" name="languages[]" value="ingles"> Inglês</label>
-                        <label><input type="checkbox" name="languages[]" value="espanhol"> Espanhol</label>
-                        <label><input type="checkbox" name="languages[]" value="frances"> Francês</label>
-                        <label><input type="checkbox" name="languages[]" value="italiano"> Italiano</label>
-                        <label><input type="checkbox" name="languages[]" value="portugues"> Português</label>
+                        <label><input type="checkbox" name="languages[]" value="ingles"
+                                {{ in_array('ingles', old('languages', [])) ? 'checked' : '' }}> Inglês</label>
+                        <label><input type="checkbox" name="languages[]" value="espanhol"
+                                {{ in_array('espanhol', old('languages', [])) ? 'checked' : '' }}> Espanhol</label>
+                        <label><input type="checkbox" name="languages[]" value="frances"
+                                {{ in_array('frances', old('languages', [])) ? 'checked' : '' }}> Francês</label>
+                        <label><input type="checkbox" name="languages[]" value="italiano"
+                                {{ in_array('italiano', old('languages', [])) ? 'checked' : '' }}> Italiano</label>
+                        <label><input type="checkbox" name="languages[]" value="portugues"
+                                {{ in_array('portugues', old('languages', [])) ? 'checked' : '' }}> Português</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Disponibilidade</label>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" name="availability[]" value="manha"> Manhã</label>
-                        <label><input type="checkbox" name="availability[]" value="tarde"> Tarde</label>
-                        <label><input type="checkbox" name="availability[]" value="noite"> Noite</label>
+                        <label><input type="checkbox" name="availability[]" value="manha"
+                                {{ in_array('manha', old('availability', [])) ? 'checked' : '' }}> Manhã</label>
+                        <label><input type="checkbox" name="availability[]" value="tarde"
+                                {{ in_array('tarde', old('availability', [])) ? 'checked' : '' }}> Tarde</label>
+                        <label><input type="checkbox" name="availability[]" value="noite"
+                                {{ in_array('noite', old('availability', [])) ? 'checked' : '' }}> Noite</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Valor da hora (R$)</label>
-                    <input type="number" name="hourly_rate" min="0" required>
+                    <input type="number" name="hourly_rate" min="0" value="{{ old('hourly_rate') }}" required>
                 </div>
 
                 <div class="form-group">
                     <label>Repasse</label>
                     <select name="commission" required>
                         <option value="">Selecione</option>
-                        <option value="30">30%</option>
-                        <option value="25">25%</option>
-                        <option value="20">20%</option>
+                        <option value="30" {{ old('commission') == '30' ? 'selected' : '' }}>30%</option>
+                        <option value="25" {{ old('commission') == '25' ? 'selected' : '' }}>25%</option>
+                        <option value="20" {{ old('commission') == '20' ? 'selected' : '' }}>20%</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label>Chave Pix</label>
-                    <input type="text" name="pix">
+                    <input type="text" name="pix" value="{{ old('pix') }}">
                 </div>
 
                 <div class="form-group">
                     <label>Observações</label>
-                    <textarea name="notes" rows="4"></textarea>
+                    <textarea name="notes" rows="4">{{ old('notes') }}</textarea>
                 </div>
 
                 <div class="button-container">
@@ -135,6 +143,5 @@
                 });
             });
         </script>
-
     </body>
 @endsection

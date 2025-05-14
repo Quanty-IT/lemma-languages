@@ -24,9 +24,13 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+        // Limpa o telefone antes de validar
+        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
+        $request->merge(['phone' => $rawPhone]);
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|string|max:11',
             'email' => 'required|email|unique:students,email',
             'availability' => 'array',
             'languages' => 'array',
@@ -36,7 +40,6 @@ class StudentController extends Controller
         ]);
 
         Student::create($data);
-
         return redirect()->route('administrator.students.index')->with('success', 'Aluno cadastrado com sucesso!');
     }
 
@@ -54,9 +57,13 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
+        // Limpa o telefone antes de validar
+        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
+        $request->merge(['phone' => $rawPhone]);
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|string|max:11',
             'email' => 'required|email|unique:students,email,' . $student->id,
             'availability' => 'array',
             'languages' => 'array',
