@@ -1,59 +1,56 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lemma - Soluções em Linguística</title>
-    <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
-</head>
+@section('content')
+    <div class="p-5">
+        <div class="position-relative mb-3">
+            <a href="{{ route('administrator.home') }}" class="text-decoration-none text-muted">Home</a>
 
-<h1>Lista de Alunos</h1>
+            <div class="position-absolute top-0 end-0 text-end d-flex flex-column gap-3">
+                <form action="{{ route('logout') }}" method="POST" class="mb-2">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                </form>
 
-    <hr>
-    <a href="{{ route('administrator.home') }}">Home</a><br>
-    <a href="{{ route('administrator.students.create') }}" class="btn">Cadastrar</a>
-    <hr>
-    
-    @if ($students->isEmpty())
-    <p>Nenhum registro de professores.</p>
-@else
-    <table border="1" cellpadding="8" cellspacing="0">
-
-        <tbody>
-        @foreach($students as $student)
-            <div style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border: 1px solid #ccc;
-                padding: 10px 20px;
-                margin-bottom: 10px;
-                border-radius: 5px;
-                background-color: #f9f9f9;
-            ">
-                <div style="font-weight: bold;">
-                    <a href="{{ route('administrator.students.show', $student->id) }}">
-                    {{ $student->name }}
-                    </a>
-                </div>
-
-                <div>
-                    <a href="{{ route('administrator.students.edit', $student->id) }}" style="margin-right: 10px;">Editar</a>
-
-                    <form action="{{ route('administrator.students.destroy', $student->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cadastro?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="background:none; border:none; color:red; cursor:pointer;"> Excluir </button>
-                    </form>
-                </div>
+                <a href="{{ route('administrator.students.create') }}" class="btn btn-success btn-sm text-white">Criar</a>
             </div>
-        @endforeach
-        </tbody>
-    </table>
-@endif
 
-</body>
+            <h2 class="fw-bold border-bottom pb-2 mt-4">Alunos</h2>
+        </div>
 
-</html>
+        @if ($students->isEmpty())
+            <p>Nenhum registro de alunos.</p>
+        @else
+            <table class="table table-borderless align-middle">
+                <thead class="fw-bold">
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($students as $student)
+                        <tr>
+                            <td>
+                                <a href="{{ route('administrator.students.show', $student->id) }}"
+                                    class="text-decoration-none text-dark">
+                                    {{ $student->name }}
+                                </a>
+                            </td>
+                            <td class="text-end">
+                                <a href="{{ route('administrator.students.edit', $student->id) }}"
+                                    class="btn btn-primary btn-sm me-2">Editar</a>
+                                <form action="{{ route('administrator.students.destroy', $student->id) }}" method="POST"
+                                    class="d-inline"
+                                    onsubmit="return confirm('Tem certeza que deseja excluir este cadastro?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
+@endsection

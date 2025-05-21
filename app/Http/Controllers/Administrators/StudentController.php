@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Administrator;
+namespace App\Http\Controllers\Administrators;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Teacher;
-use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::with('teacher')->get(); // Eager load the teacher
+        $students = Student::with('teacher')->get();
         return view('administrator.students.index', compact('students'));
     }
-    
+
 
     public function create()
     {
@@ -24,25 +24,28 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+        // Limpa o telefone antes de validar
+        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
+        $request->merge(['phone' => $rawPhone]);
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|string|max:11|unique:students,phone',
             'email' => 'required|email|unique:students,email',
             'availability' => 'array',
             'languages' => 'array',
-            'goal' => 'nullable|string',
-            'observation' => 'nullable|string',
-            'teacher_id' => 'required|exists:teachers,id', // Validação do ID do professor
+            'goal' => 'required|string',
+            'notes' => 'nullable|string|max:1000',
+            'teacher_id' => 'required|exists:teachers,id',
         ]);
 
-        $student = Student::create($data); // Passa o array $data diretamente
-
+        Student::create($data);
         return redirect()->route('administrator.students.index')->with('success', 'Aluno cadastrado com sucesso!');
     }
 
     public function show(Student $student)
     {
-        $student->load('teacher'); // Carrega os dados do professor
+        $student->load('teacher');
         return view('administrator.students.show', compact('student'));
     }
 
@@ -54,18 +57,22 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
+        // Limpa o telefone antes de validar
+        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
+        $request->merge(['phone' => $rawPhone]);
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|string|max:11|unique:students,phone,' . $student->id,
             'email' => 'required|email|unique:students,email,' . $student->id,
-            'availability' => 'array',
-            'languages' => 'array',
-            'goal' => 'nullable|string',
-            'observation' => 'nullable|string',
+            'availability' => 'required|array',
+            'languages' => 'required|array',
+            'goal' => 'required|string',
+            'notes' => 'nullable|string|max:1000',
             'teacher_id' => 'required|exists:teachers,id',
         ]);
 
-        $student->update($data); // Passa o array $data diretamente
+        $student->update($data);
         return redirect()->route('administrator.students.index')->with('success', 'Aluno atualizado com sucesso!');
     }
 

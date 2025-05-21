@@ -9,7 +9,7 @@ class Administrator extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'administrators'; // aqui está o nome da sua tabela
+    protected $table = 'administrators';
 
     protected $fillable = [
         'email',

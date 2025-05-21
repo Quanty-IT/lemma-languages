@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Contracts\Auth\Authenticatable;
 
-class Teacher extends Model
+class Teacher extends Model implements Authenticatable
 {
-    use HasFactory;
+    use HasFactory, AuthenticatableTrait;
 
     protected $table = 'teachers';
 
@@ -22,15 +24,25 @@ class Teacher extends Model
         'pix',
         'notes',
         'password',
+        'reset_code',
+        'reset_code_expires_at',
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     protected $casts = [
+        'languages' => 'array',
         'availability' => 'array',
+        'reset_code_expires_at' => 'datetime',
     ];
 
-    // Se necessário personalizar a chave primária e outros atributos:
-    // protected $primaryKey = 'id';
     public $timestamps = true;
-}
 
-?>
+    // Relacionamento com os alunos
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+}
