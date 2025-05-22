@@ -16,13 +16,17 @@ Route::post('/login', [LoginController::class, 'login'])->name('auth');
 // Rota de logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Rotas de recuperação de senha
+// Rotas de recuperação de senha
 Route::get('/esqueci-senha', [ForgotPasswordController::class, 'showEmailForm'])->name('password.request');
 Route::post('/esqueci-senha', [ForgotPasswordController::class, 'sendResetCode'])->name('password.email');
 Route::get('/codigo-verificacao', [ForgotPasswordController::class, 'showCodeForm'])->name('password.code');
 Route::post('/verificar-codigo', [ForgotPasswordController::class, 'verifyCode'])->name('password.verify');
 Route::get('/nova-senha', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/nova-senha', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
+
+// Rota para configurar senha
+Route::get('/set-password', [SetPasswordController::class, 'showform'])->name('set.password');
+Route::post('/set-password', [SetPasswordController::class, 'storePassword'])->name('set.password.store');
 
 // Rotas para os administradores
 Route::middleware(['auth:administrator'])->group(function () {
@@ -38,38 +42,15 @@ Route::middleware(['auth:administrator'])->group(function () {
     Route::delete('/teachers/{id}', [TeacherController::class, 'destroy'])->name('administrator.teachers.destroy');
     Route::get('/api/teachers/filter', [TeacherController::class, 'filter'])->name('teachers.filter');
 
-
-Route::middleware(['auth:admin'])->group(function(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
-});
-=======
-    Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
-});
->>>>>>> 191a33b6d95dc18e055e7e5b82b63b2fab8d85e2
-=======
-Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
-Route::get('/', [AdministratorController::class, 'index'])->name('administrator.home');
-Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
-Route::prefix('administrator')->name('administrator.')->group(function () {
-        Route::resource('students', StudentController::class);
-    });
-});
->>>>>>> fddd98ccb9b01109ba9a19944caaea17bf37d63b
-=======
     // Rotas de registro de alunos
     Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
     Route::get('/students/create', [StudentController::class, 'create'])->name('administrator.students.create');
     Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
+
     Route::prefix('administrator')->name('administrator.')->group(function () {
         Route::resource('students', StudentController::class);
     });
 });
-
-// Rota para configurar senha
-Route::get('/set-password', [SetPasswordController::class, 'showform'])->name('set.password');
-Route::post('/set-password', [SetPasswordController::class, 'storePassword'])->name('set.password.store');
 
 // Rotas para os professores
 Route::middleware(['auth:teacher'])->group(function () {
@@ -89,4 +70,3 @@ Route::middleware(['auth:teacher'])->group(function () {
     // Rota para visualizar registros de aulas de um aluno
     Route::get('/teacher/student/{student}', [LessonController::class, 'show'])->name('teacher.show');
 });
->>>>>>> 094d669295b3a95567ff78ebc5d2e95126ba4000
