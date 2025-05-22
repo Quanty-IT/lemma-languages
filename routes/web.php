@@ -16,13 +16,17 @@ Route::post('/login', [LoginController::class, 'login'])->name('auth');
 // Rota de logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Rotas de recuperação de senha
+// Rotas de recuperação de senha
 Route::get('/esqueci-senha', [ForgotPasswordController::class, 'showEmailForm'])->name('password.request');
 Route::post('/esqueci-senha', [ForgotPasswordController::class, 'sendResetCode'])->name('password.email');
 Route::get('/codigo-verificacao', [ForgotPasswordController::class, 'showCodeForm'])->name('password.code');
 Route::post('/verificar-codigo', [ForgotPasswordController::class, 'verifyCode'])->name('password.verify');
 Route::get('/nova-senha', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/nova-senha', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
+
+// Rota para configurar senha
+Route::get('/set-password', [SetPasswordController::class, 'showform'])->name('set.password');
+Route::post('/set-password', [SetPasswordController::class, 'storePassword'])->name('set.password.store');
 
 // Rotas para os administradores
 Route::middleware(['auth:administrator'])->group(function () {
@@ -62,14 +66,11 @@ Route::prefix('administrator')->name('administrator.')->group(function () {
     Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
     Route::get('/students/create', [StudentController::class, 'create'])->name('administrator.students.create');
     Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
+
     Route::prefix('administrator')->name('administrator.')->group(function () {
         Route::resource('students', StudentController::class);
     });
 });
-
-// Rota para configurar senha
-Route::get('/set-password', [SetPasswordController::class, 'showform'])->name('set.password');
-Route::post('/set-password', [SetPasswordController::class, 'storePassword'])->name('set.password.store');
 
 // Rotas para os professores
 Route::middleware(['auth:teacher'])->group(function () {
