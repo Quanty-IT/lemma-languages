@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 40px;
+}
+
+.titulo {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333;
+}
+
+.form-container {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.student-info {
+    margin-bottom: 30px;
+}
+
+.info-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-item {
+    flex: 1;
+}
+
+.info-row .info-item:only-child {
+    flex: none;
+    width: 100%;
+}
+
+.info-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.info-value {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    color: #495057;
+    min-height: 20px;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Estilos do header (copiados da view create) */
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.gap-3 {
+    gap: 1rem;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+.text-muted:hover {
+    color: #495057;
+    text-decoration: underline;
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background-color: transparent;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}

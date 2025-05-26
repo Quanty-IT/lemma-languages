@@ -95,10 +95,32 @@ label {
     padding-left: 20px;
 }
 
-.form-check {
-    margin-top: 0px;
+.form-check-input {
+    margin-right: 8px;
+    margin-top: 0;
+}
+
+.form-check-label {
+    margin-bottom: 0;
+    font-weight: normal;
+    color: #495057;
 }
 
 .form-label {
-    margin: -1px;
+    display: block;
+    margin-bottom: 0px;
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background-color: transparent;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
 }

@@ -23,9 +23,18 @@ class TeacherController extends Controller
         return view('administrator.teachers.index', compact('teachers'));
     }
 
-    public function create()
+
+    public function create(Request $request)
     {
-        return view('administrator.teachers.create');
+        $selectedAvailability = $request->input('availability'); // Ex: "noite"
+
+        // Só filtra se o valor foi enviado
+        if ($selectedAvailability) {
+            $teachers = Teacher::whereJsonContains('availability', $selectedAvailability)->get();
+        } else {
+            $teachers = collect(); // Retorna vazio
+        }
+        return view('administrator.teachers.create', compact('teachers'));
     }
 
     public function store(Request $request)

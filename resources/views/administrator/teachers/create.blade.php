@@ -105,7 +105,7 @@
                 <div class="mb-3 d-flex gap-3">
                     <div class="flex-fill">
                         <label class="form-label">Valor da hora (R$)</label>
-                        <input type="number" class="form-control" name="hourly_rate" min="0" max="99"
+                        <input type="number" class="form-control" name="hourly_rate" min="0"
                             value="{{ old('hourly_rate') }}" required>
                     </div>
                     <div class="flex-fill">
@@ -128,7 +128,7 @@
                 {{-- Observações --}}
                 <div class="mb-3">
                     <label class="form-label">Observações</label>
-                    <textarea class="form-control" name="notes" rows="4">{{ old('notes') }}</textarea>
+                    <textarea class="form-control" name="notes" rows="3">{{ old('notes') }}</textarea>
                 </div>
 
                 {{-- Botão --}}
@@ -153,7 +153,7 @@
                     value = value.replace(/[^0-9]/g, '');
 
                     // Limita a até 2 caracteres (dois dígitos)
-                    if (value.length > 2) value = value.slice(0, 2);
+                    if (value.length > 3) value = value.slice(0, 2);
 
                     // Remover zeros à esquerda
                     value = parseInt(value, 10);
