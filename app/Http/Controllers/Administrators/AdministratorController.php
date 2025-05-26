@@ -50,7 +50,7 @@ class AdministratorController extends Controller
             $valueCompany = $totalValue * ($commission / 100);
 
             return [
-                'name' => $teacher->name,
+                'name' => capitalizeNameMask($teacher->name),
                 'month' => $month,
                 'month_order' => array_search($month, $orderedMonths),
                 'hours' => $totalHours . 'h',

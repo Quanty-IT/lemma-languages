@@ -24,9 +24,7 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
-        // Limpa o telefone antes de validar
-        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
-        $request->merge(['phone' => $rawPhone]);
+        $request->merge(['phone' => sanitizePhoneNumber($request->input('phone'))]);
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -57,9 +55,7 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
-        // Limpa o telefone antes de validar
-        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
-        $request->merge(['phone' => $rawPhone]);
+        $request->merge(['phone' => sanitizePhoneNumber($request->input('phone'))]);
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
