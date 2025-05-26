@@ -9,14 +9,12 @@
         <br>
 
         <label>Aluno</label>
-        <!-- Campo apenas leitura para o aluno -->
         <input type="text" value="{{ $student->name }}" disabled class="form-control" />
 
         <label>Idioma</label>
         <select name="language" id="language" required>
             <option value="">Selecione o idioma</option>
             @php
-                // Interseção dos idiomas que o professor pode ensinar e que o aluno quer aprender
                 $availableLanguages = array_intersect($teacherLanguages, $student->languages);
             @endphp
             @foreach ($availableLanguages as $language)
