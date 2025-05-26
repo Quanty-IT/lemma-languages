@@ -2,92 +2,139 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
+    <link rel="stylesheet" href="/css/administrator/teachers/edit.css"> <!-- Usa o mesmo CSS -->
 
     <!-- jQuery e jQuery Mask -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <body>
-        <h2>Editar cadastro</h2>
-        <hr>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex gap-3">
+                <a href="{{ route('administrator.home') }}" class="text-decoration-none text-muted">Home</a>
+                <a href="{{ route('administrator.teachers.index') }}" class="text-decoration-none text-muted">Listar</a>
+                <a href="{{ route('administrator.teachers.show', $teacher->id) }}"
+                    class="text-decoration-none text-muted">Visualizar</a>
+            </div>
+            <form action="{{ route('logout') }}" method="POST" class="mb-0">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+            </form>
+        </div>
 
-        <a href="{{ route('administrator.home') }}">Home</a><br>
-        <a href="{{ route('administrator.teachers.index') }}">Listar</a>
-        <hr>
+        <div class="form-container">
+            <form method="POST" action="{{ route('administrator.teachers.update', $teacher->id) }}">
+                @csrf
+                @method('PUT')
 
-        <form method="POST" action="{{ route('administrator.teachers.update', $teacher->id) }}">
-            @csrf
-            @method('PUT')
+                @if ($errors->any())
+                    <div class="error-box">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-            @if ($errors->any())
-                <div style="color: red;">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                <div class="mb-3">
+                    <label class="form-label">Nome</label>
+                    <input type="text" class="form-control" name="name" value="{{ old('name', $teacher->name) }}"
+                        required>
                 </div>
-            @endif
 
-            <label>Nome</label>
-            <input type="text" name="name" value="{{ $teacher->name }}" required><br><br>
+                <div class="mb-3 d-flex gap-3">
+                    <div class="flex-fill">
+                        <label class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="phone" name="phone" maxlength="15"
+                            value="{{ old('phone', $teacher->phone) }}" required>
+                    </div>
+                    <div class="flex-fill">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email"
+                            value="{{ old('email', $teacher->email) }}">
+                    </div>
+                </div>
 
-            <label>Telefone</label>
-            <input type="text" id="phone" name="phone" value="{{ $teacher->phone }}" maxlength="15"
-                required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Idiomas</label>
+                    @php
+                        $selectedLanguages = old(
+                            'languages',
+                            is_array($teacher->languages)
+                                ? $teacher->languages
+                                : (is_string($teacher->languages)
+                                    ? explode(',', $teacher->languages)
+                                    : []),
+                        );
+                    @endphp
+                    @foreach (['ingles', 'espanhol', 'frances', 'italiano'] as $lang)
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="lang-{{ $lang }}" name="languages[]"
+                                value="{{ $lang }}" {{ in_array($lang, $selectedLanguages) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="lang-{{ $lang }}">{{ ucfirst($lang) }}</label>
+                        </div>
+                    @endforeach
+                </div>
 
-            <label>Email</label>
-            <input type="email" name="email" value="{{ $teacher->email }}"><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Disponibilidade</label>
+                    @php
+                        $selectedAvailability = old(
+                            'availability',
+                            is_array($teacher->availability)
+                                ? $teacher->availability
+                                : (is_string($teacher->availability)
+                                    ? explode(',', $teacher->availability)
+                                    : []),
+                        );
+                    @endphp
+                    @foreach (['manha', 'tarde', 'noite'] as $period)
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="disp-{{ $period }}"
+                                name="availability[]" value="{{ $period }}"
+                                {{ in_array($period, $selectedAvailability) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="disp-{{ $period }}">{{ ucfirst($period) }}</label>
+                        </div>
+                    @endforeach
+                </div>
 
-            <label>Idiomas</label><br>
-            @php
-                $selectedLanguages = is_array($teacher->languages)
-                    ? $teacher->languages
-                    : explode(',', $teacher->languages);
-            @endphp
-            <input type="checkbox" name="languages[]" value="ingles"
-                {{ in_array('ingles', $selectedLanguages) ? 'checked' : '' }}> Inglês
-            <input type="checkbox" name="languages[]" value="espanhol"
-                {{ in_array('espanhol', $selectedLanguages) ? 'checked' : '' }}> Espanhol
-            <input type="checkbox" name="languages[]" value="frances"
-                {{ in_array('frances', $selectedLanguages) ? 'checked' : '' }}> Francês
-            <input type="checkbox" name="languages[]" value="italiano"
-                {{ in_array('italiano', $selectedLanguages) ? 'checked' : '' }}> Italiano
-            <br><br>
+                <div class="mb-3">
+                    <label class="form-label">Valor da hora (R$)</label>
+                    <input type="number" class="form-control" name="hourly_rate" min="0"
+                        value="{{ old('hourly_rate', $teacher->hourly_rate) }}" required>
+                </div>
 
-            <label>Disponibilidade</label><br>
-            @php
-                $selectedAvailability = is_array($teacher->availability)
-                    ? $teacher->availability
-                    : explode(',', $teacher->availability);
-            @endphp
-            <input type="checkbox" name="availability[]" value="manha"
-                {{ in_array('manha', $selectedAvailability) ? 'checked' : '' }}> Manhã
-            <input type="checkbox" name="availability[]" value="tarde"
-                {{ in_array('tarde', $selectedAvailability) ? 'checked' : '' }}> Tarde
-            <input type="checkbox" name="availability[]" value="noite"
-                {{ in_array('noite', $selectedAvailability) ? 'checked' : '' }}> Noite<br><br>
+                <div class="mb-3">
+                    <label class="form-label">Repasse</label>
+                    <select name="commission" class="form-select" required>
+                        <option value="">Selecione</option>
+                        <option value="30" {{ old('commission', $teacher->commission) == 30 ? 'selected' : '' }}>30%
+                        </option>
+                        <option value="25" {{ old('commission', $teacher->commission) == 25 ? 'selected' : '' }}>25%
+                        </option>
+                        <option value="20" {{ old('commission', $teacher->commission) == 20 ? 'selected' : '' }}>20%
+                        </option>
+                    </select>
+                </div>
 
-            <label>Valor da hora (R$)</label>
-            <input type="number" name="hourly_rate" value="{{ $teacher->hourly_rate }}" min="0" max="99"
-                required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Chave Pix</label>
+                    <input type="text" class="form-control" name="pix" value="{{ old('pix', $teacher->pix) }}">
+                </div>
 
-            <label>Repasse</label>
-            <select name="commission" required>
-                <option value="">Selecione</option>
-                <option value="30" {{ $teacher->commission == 30 ? 'selected' : '' }}>30%</option>
-                <option value="25" {{ $teacher->commission == 25 ? 'selected' : '' }}>25%</option>
-                <option value="20" {{ $teacher->commission == 20 ? 'selected' : '' }}>20%</option>
-            </select><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Observações</label>
+                    <textarea class="form-control" name="observation" rows="3">{{ old('observation', $teacher->notes) }}</textarea>
+                </div>
 
-            <label>Chave Pix</label>
-            <input type="text" name="pix" value="{{ $teacher->pix }}"><br><br>
-
-            <label>Observações</label><br>
-            <textarea name="notes" rows="4" cols="30">{{ $teacher->notes }}</textarea><br><br>
-
-            <button type="submit">Salvar alterações</button>
-        </form>
+                <div class="button-container">
+                    <button type="submit" class="btn btn-success">Salvar alterações</button>
+                    <a href="{{ route('administrator.teachers.show', $teacher->id) }}"
+                        class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
 
         <script>
             $(document).ready(function() {
@@ -110,9 +157,9 @@
                     value = value.replace(/[^0-9]/g, '');
 
                     // Limita a até 2 caracteres (dois dígitos)
-                    if (value.length > 2) value = value.slice(0, 2);
+                    if (value.length > 3) value = value.slice(0, 2);
 
-                    // Remover zeros à esquerda
+                    // Remover zeros à esquerda e converter para número inteiro
                     value = parseInt(value, 10);
 
                     // Garantir que o valor seja positivo e corrigir se necessário
@@ -124,5 +171,4 @@
             });
         </script>
     </body>
-
 @endsection

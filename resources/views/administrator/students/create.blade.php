@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Idiomas</label><br>
+                    <label class="form-label">Idiomas</label>
                     @foreach (['ingles', 'espanhol', 'frances', 'italiano'] as $lang)
                         <div class="form-check form-check-inline">
                             <input type="checkbox" class="form-check-input filter-language" id="lang-{{ $lang }}"
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Disponibilidade</label><br>
+                    <label class="form-label">Disponibilidade</label>
                     @foreach (['manha', 'tarde', 'noite'] as $period)
                         <div class="form-check form-check-inline">
                             <input type="checkbox" class="form-check-input filter-availability"
@@ -74,17 +74,18 @@
                     @endforeach
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Professor</label>
-                    <select name="teacher_id" id="teacher-select" class="form-select" data-loaded="true" required>
+                <select name="teacher_id" class="form-select" required>
+                    @if ($teachers->isEmpty())
+                        <option value="">Nenhum professor no horário selecionado</option>
+                    @else
                         <option value="">Selecione</option>
                         @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                                {{ $teacher->name }}
-                            </option>
+                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                         @endforeach
-                    </select>
-                </div>
+                    @endif
+                </select>
+
+
 
                 <div class="mb-3">
                     <label class="form-label">Objetivo</label>
@@ -93,7 +94,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Observações</label>
-                    <textarea class="form-control" name="notes" rows="2">{{ old('notes') }}</textarea>
+                    <textarea class="form-control" name="observation" rows="3">{{ old('observation') }}</textarea>
                 </div>
 
                 <div class="button-container">

@@ -2,45 +2,98 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
+    <link rel="stylesheet" href="/css/administrator/students/show.css">
 
     <body>
-        <h2>Visualizar cadastro</h2>
-        <hr>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex gap-3">
+                <a href="{{ route('administrator.home') }}" class="text-decoration-none text-muted">Home</a>
+                <a href="{{ route('administrator.students.index') }}" class="text-decoration-none text-muted">Listar</a>
+            </div>
+            <form action="{{ route('logout') }}" method="POST" class="mb-0">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+            </form>
+        </div>
 
-        <a href="{{ route('administrator.home') }}">Home</a><br>
-        <a href="{{ route('administrator.students.index') }}">Listar Alunos</a>
+        <div class="form-container">
 
-        <p><strong>Nome:</strong> {{ $student->name }}</p>
-        <p><strong>Telefone:</strong> {{ $student->phone }}</p>
-        <p><strong>Email:</strong> {{ $student->email }}</p>
+            <div class="student-info">
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="info-label">Nome</label>
+                        <div class="info-value">{{ $student->name }}</div>
+                    </div>
+                </div>
 
-        <p><strong>Idiomas:</strong>
-            {{ is_array($student->languages)
-                ? implode(', ', array_map(fn($lang) => ucfirst($lang), $student->languages))
-                : ucfirst($student->languages) }}
-        </p>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="info-label">Telefone</label>
+                        <div class="info-value">{{ $student->phone }}</div>
+                    </div>
+                    <div class="info-item">
+                        <label class="info-label">Email</label>
+                        <div class="info-value">{{ $student->email ?: 'Não informado' }}</div>
+                    </div>
+                </div>
 
-        <p><strong>Professor:</strong> {{ $student->teacher->name ?? 'N/A' }}</p>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="info-label">Idiomas</label>
+                        <div class="info-value">
+                            {{ is_array($student->languages)
+                                ? implode(', ', array_map(fn($lang) => ucfirst($lang), $student->languages))
+                                : ucfirst($student->languages) }}
+                        </div>
+                    </div>
+                </div>
 
-        <p><strong>Disponibilidade:</strong>
-            {{ is_array($student->availability)
-                ? implode(', ', array_map(fn($slot) => ucfirst($slot), $student->availability))
-                : ucfirst($student->availability) }}
-        </p>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="info-label">Disponibilidade</label>
+                        <div class="info-value">
+                            {{ is_array($student->availability)
+                                ? implode(', ', array_map(fn($slot) => ucfirst($slot), $student->availability))
+                                : ucfirst($student->availability) }}
+                        </div>
+                    </div>
+                </div>
 
-        <p><strong>Objetivo:</strong> {{ $student->goal }}</p>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="info-label">Professor</label>
+                        <div class="info-value">{{ $student->teacher->name ?? 'Não atribuído' }}</div>
+                    </div>
+                </div>
 
-        @if ($student->notes)
-            <p><strong>Observações:</strong> {{ $student->notes }}</p>
-        @endif
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="info-label">Objetivo</label>
+                        <div class="info-value">{{ $student->goal ?: 'Não informado' }}</div>
+                    </div>
+                </div>
 
-        <a href="{{ route('administrator.students.edit', $student->id) }}">Editar</a>
+                @if ($student->notes)
+                    <div class="info-row">
+                        <div class="info-item">
+                            <label class="info-label">Observações</label>
+                            <div class="info-value">{{ $student->notes }}</div>
+                        </div>
+                    </div>
+                @endif
+            </div>
 
-        <form action="{{ route('administrator.students.destroy', $student->id) }}" method="POST" style="display:inline;"
-            onsubmit="return confirm('Tem certeza que deseja excluir este cadastro?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" style="background:none; border:none; color:red; cursor:pointer;">Excluir</button>
-        </form>
+            <div class="button-container">
+                <a href="{{ route('administrator.students.edit', $student->id) }}" class="btn btn-primary">Editar</a>
+
+                <form action="{{ route('administrator.students.destroy', $student->id) }}" method="POST"
+                    style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cadastro?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+        </div>
+
     </body>
 @endsection
