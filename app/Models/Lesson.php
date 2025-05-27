@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     protected $fillable = [
+        'language',
         'month',
         'hours',
         'content',
         'student_id',
         'teacher_id',
-        'language',
     ];
 
     // Relacionamento com os alunos

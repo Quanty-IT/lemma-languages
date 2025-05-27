@@ -11,8 +11,8 @@ class Student extends Model
         'name',
         'phone',
         'email',
+        'language',
         'availability',
-        'languages',
         'goal',
         'notes',
         'teacher_id',
@@ -20,7 +20,6 @@ class Student extends Model
 
     protected $casts = [
         'availability' => 'array',
-        'languages' => 'array',
     ];
 
     // Relacionamento com os professores

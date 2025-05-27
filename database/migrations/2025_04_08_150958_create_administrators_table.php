@@ -8,15 +8,12 @@ use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('administrators', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->string('reset_code')->nullable();
@@ -24,7 +21,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Inserir administrador padrão
         DB::table('administrators')->insert([
             'name' => 'Lemma Idiomas',
             'phone' => '1732233493',
@@ -35,9 +31,6 @@ return new class extends Migration
         ]);
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('administrators');
