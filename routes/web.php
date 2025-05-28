@@ -43,13 +43,13 @@ Route::middleware(['auth:administrator'])->group(function () {
     Route::get('/api/teachers/filter', [TeacherController::class, 'filter'])->name('teachers.filter');
 
     // Rotas de registro de alunos
-    Route::get('/students', [AdministratorController::class, 'students'])->name('administrator.students');
+    Route::get('/students', [StudentController::class, 'index'])->name('administrator.students.index');
     Route::get('/students/create', [StudentController::class, 'create'])->name('administrator.students.create');
-    Route::post('/administrator/students', [StudentController::class, 'store'])->name('administrator.students.store');
-
-    Route::prefix('administrator')->name('administrator.')->group(function () {
-        Route::resource('students', StudentController::class);
-    });
+    Route::post('/students', [StudentController::class, 'store'])->name('administrator.students.store');
+    Route::get('/students/{id}', [StudentController::class, 'show'])->name('administrator.students.show');
+    Route::get('/students/{id}/edit', [StudentController::class, 'edit'])->name('administrator.students.edit');
+    Route::put('/students/{id}', [StudentController::class, 'update'])->name('administrator.students.update');
+    Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('administrator.students.destroy');
 });
 
 // Rotas para os professores

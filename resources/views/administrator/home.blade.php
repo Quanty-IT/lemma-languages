@@ -2,7 +2,7 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
-    <link rel="stylesheet" href="{{ asset('css/administrator/home.css') }}">
+    <link rel="stylesheet" href="/css/administrator/home.css">
 
     <div class="p-5">
         <div class="position-relative mb-3">

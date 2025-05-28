@@ -23,18 +23,18 @@
 
         <label>Mês</label>
         <select name="month" required>
-            <option value="Janeiro">Janeiro</option>
-            <option value="Fevereiro">Fevereiro</option>
-            <option value="Março">Março</option>
-            <option value="Abril">Abril</option>
-            <option value="Maio">Maio</option>
-            <option value="Junho">Junho</option>
-            <option value="Julho">Julho</option>
-            <option value="Agosto">Agosto</option>
-            <option value="Setembro">Setembro</option>
-            <option value="Outubro">Outubro</option>
-            <option value="Novembro">Novembro</option>
-            <option value="Dezembro">Dezembro</option>
+            <option value="january">Janeiro</option>
+            <option value="february">Fevereiro</option>
+            <option value="march">Março</option>
+            <option value="april">Abril</option>
+            <option value="may">Maio</option>
+            <option value="june">Junho</option>
+            <option value="july">Julho</option>
+            <option value="august">Agosto</option>
+            <option value="september">Setembro</option>
+            <option value="october">Outubro</option>
+            <option value="november">Novembro</option>
+            <option value="december">Dezembro</option>
         </select>
 
         <label>Horas</label>

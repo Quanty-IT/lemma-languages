@@ -26,18 +26,18 @@
 
         <label>Mês</label>
         <select name="month" required>
-            <option value="Janeiro" {{ old('month', $lesson->month) == 'Janeiro' ? 'selected' : '' }}>Janeiro</option>
-            <option value="Fevereiro" {{ old('month', $lesson->month) == 'Fevereiro' ? 'selected' : '' }}>Fevereiro</option>
-            <option value="Março" {{ old('month', $lesson->month) == 'Março' ? 'selected' : '' }}>Março</option>
-            <option value="Abril" {{ old('month', $lesson->month) == 'Abril' ? 'selected' : '' }}>Abril</option>
-            <option value="Maio" {{ old('month', $lesson->month) == 'Maio' ? 'selected' : '' }}>Maio</option>
-            <option value="Junho" {{ old('month', $lesson->month) == 'Junho' ? 'selected' : '' }}>Junho</option>
-            <option value="Julho" {{ old('month', $lesson->month) == 'Julho' ? 'selected' : '' }}>Julho</option>
-            <option value="Agosto" {{ old('month', $lesson->month) == 'Agosto' ? 'selected' : '' }}>Agosto</option>
-            <option value="Setembro" {{ old('month', $lesson->month) == 'Setembro' ? 'selected' : '' }}>Setembro</option>
-            <option value="Outubro" {{ old('month', $lesson->month) == 'Outubro' ? 'selected' : '' }}>Outubro</option>
-            <option value="Novembro" {{ old('month', $lesson->month) == 'Novembro' ? 'selected' : '' }}>Novembro</option>
-            <option value="Dezembro" {{ old('month', $lesson->month) == 'Dezembro' ? 'selected' : '' }}>Dezembro</option>
+            <option value="january" {{ old('month', $lesson->month) == 'january' ? 'selected' : '' }}>Janeiro</option>
+            <option value="february" {{ old('month', $lesson->month) == 'february' ? 'selected' : '' }}>Fevereiro</option>
+            <option value="march" {{ old('month', $lesson->month) == 'march' ? 'selected' : '' }}>Março</option>
+            <option value="april" {{ old('month', $lesson->month) == 'april' ? 'selected' : '' }}>Abril</option>
+            <option value="may" {{ old('month', $lesson->month) == 'may' ? 'selected' : '' }}>Maio</option>
+            <option value="june" {{ old('month', $lesson->month) == 'june' ? 'selected' : '' }}>Junho</option>
+            <option value="july" {{ old('month', $lesson->month) == 'july' ? 'selected' : '' }}>Julho</option>
+            <option value="august" {{ old('month', $lesson->month) == 'august' ? 'selected' : '' }}>Agosto</option>
+            <option value="september" {{ old('month', $lesson->month) == 'september' ? 'selected' : '' }}>Setembro</option>
+            <option value="october" {{ old('month', $lesson->month) == 'october' ? 'selected' : '' }}>Outubro</option>
+            <option value="november" {{ old('month', $lesson->month) == 'november' ? 'selected' : '' }}>Novembro</option>
+            <option value="december" {{ old('month', $lesson->month) == 'december' ? 'selected' : '' }}>Dezembro</option>
         </select>
 
         <label>Horas</label>

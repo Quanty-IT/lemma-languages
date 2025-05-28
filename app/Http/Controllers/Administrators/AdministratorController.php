@@ -20,18 +20,18 @@ class AdministratorController extends Controller
             ->get();
 
         $orderedMonths = [
-            'Janeiro',
-            'Fevereiro',
-            'Março',
-            'Abril',
-            'Maio',
-            'Junho',
-            'Julho',
-            'Agosto',
-            'Setembro',
-            'Outubro',
-            'Novembro',
-            'Dezembro'
+            'january',
+            'february',
+            'march',
+            'april',
+            'may',
+            'june',
+            'july',
+            'august',
+            'september',
+            'october',
+            'november',
+            'december'
         ];
 
         $groupedSummaries = $lessons->groupBy(function ($lesson) {

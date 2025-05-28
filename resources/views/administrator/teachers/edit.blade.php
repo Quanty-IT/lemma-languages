@@ -2,9 +2,8 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
-    <link rel="stylesheet" href="/css/administrator/teachers/edit.css"> <!-- Usa o mesmo CSS -->
+    <link rel="stylesheet" href="/css/administrator/teachers/form.css">
 
-    <!-- jQuery e jQuery Mask -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
@@ -56,66 +55,86 @@
                     </div>
                 </div>
 
+                @php
+                    $languageOptions = [
+                        'english' => 'Inglês',
+                        'spanish' => 'Espanhol',
+                        'french' => 'Francês',
+                        'italian' => 'Italiano',
+                        'portuguese' => 'Português',
+                    ];
+                    $selectedLanguages = old(
+                        'languages',
+                        is_array($teacher->languages)
+                            ? $teacher->languages
+                            : (is_string($teacher->languages)
+                                ? explode(',', $teacher->languages)
+                                : []),
+                    );
+                @endphp
+
                 <div class="mb-3">
                     <label class="form-label">Idiomas</label>
-                    @php
-                        $selectedLanguages = old(
-                            'languages',
-                            is_array($teacher->languages)
-                                ? $teacher->languages
-                                : (is_string($teacher->languages)
-                                    ? explode(',', $teacher->languages)
-                                    : []),
-                        );
-                    @endphp
-                    @foreach (['ingles', 'espanhol', 'frances', 'italiano'] as $lang)
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" class="form-check-input" id="lang-{{ $lang }}" name="languages[]"
-                                value="{{ $lang }}" {{ in_array($lang, $selectedLanguages) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="lang-{{ $lang }}">{{ ucfirst($lang) }}</label>
-                        </div>
-                    @endforeach
+                    <div class="d-flex flex-wrap gap-3">
+                        @foreach ($languageOptions as $lang => $label)
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" id="lang-{{ $lang }}"
+                                    name="languages[]" value="{{ $lang }}"
+                                    {{ in_array($lang, $selectedLanguages) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="lang-{{ $lang }}">{{ $label }}</label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
+
+                @php
+                    $availabilityOptions = [
+                        'morning' => 'Manhã',
+                        'afternoon' => 'Tarde',
+                        'evening' => 'Noite',
+                    ];
+                    $selectedAvailability = old(
+                        'availability',
+                        is_array($teacher->availability)
+                            ? $teacher->availability
+                            : (is_string($teacher->availability)
+                                ? explode(',', $teacher->availability)
+                                : []),
+                    );
+                @endphp
 
                 <div class="mb-3">
                     <label class="form-label">Disponibilidade</label>
-                    @php
-                        $selectedAvailability = old(
-                            'availability',
-                            is_array($teacher->availability)
-                                ? $teacher->availability
-                                : (is_string($teacher->availability)
-                                    ? explode(',', $teacher->availability)
-                                    : []),
-                        );
-                    @endphp
-                    @foreach (['manha', 'tarde', 'noite'] as $period)
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" class="form-check-input" id="disp-{{ $period }}"
-                                name="availability[]" value="{{ $period }}"
-                                {{ in_array($period, $selectedAvailability) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="disp-{{ $period }}">{{ ucfirst($period) }}</label>
-                        </div>
-                    @endforeach
+                    <div class="d-flex flex-wrap gap-3">
+                        @foreach ($availabilityOptions as $period => $label)
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" id="disp-{{ $period }}"
+                                    name="availability[]" value="{{ $period }}"
+                                    {{ in_array($period, $selectedAvailability) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="disp-{{ $period }}">{{ $label }}</label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Valor da hora (R$)</label>
-                    <input type="number" class="form-control" name="hourly_rate" min="0"
-                        value="{{ old('hourly_rate', $teacher->hourly_rate) }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Repasse</label>
-                    <select name="commission" class="form-select" required>
-                        <option value="">Selecione</option>
-                        <option value="30" {{ old('commission', $teacher->commission) == 30 ? 'selected' : '' }}>30%
-                        </option>
-                        <option value="25" {{ old('commission', $teacher->commission) == 25 ? 'selected' : '' }}>25%
-                        </option>
-                        <option value="20" {{ old('commission', $teacher->commission) == 20 ? 'selected' : '' }}>20%
-                        </option>
-                    </select>
+                <div class="mb-3 d-flex gap-3">
+                    <div class="flex-fill">
+                        <label class="form-label">Valor da hora (R$)</label>
+                        <input type="number" class="form-control" name="hourly_rate" min="0"
+                            value="{{ old('hourly_rate', $teacher->hourly_rate) }}" required>
+                    </div>
+                    <div class="flex-fill">
+                        <label class="form-label">Percentual de Repasse</label>
+                        <select name="commission" class="form-select" required>
+                            <option value="">Selecione</option>
+                            <option value="30" {{ old('commission', $teacher->commission) == 30 ? 'selected' : '' }}>
+                                30%</option>
+                            <option value="25" {{ old('commission', $teacher->commission) == 25 ? 'selected' : '' }}>
+                                25%</option>
+                            <option value="20" {{ old('commission', $teacher->commission) == 20 ? 'selected' : '' }}>
+                                20%</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -125,7 +144,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Observações</label>
-                    <textarea class="form-control" name="observation" rows="3">{{ old('observation', $teacher->notes) }}</textarea>
+                    <textarea class="form-control" name="notes" rows="3">{{ old('notes', $teacher->notes) }}</textarea>
                 </div>
 
                 <div class="button-container">
@@ -141,31 +160,13 @@
                 // Máscara para telefone
                 $('#phone').mask('(00) 00000-0000');
 
-                // Formatar telefone vindo do banco (apenas números)
-                var rawPhone = '{{ $teacher->phone }}';
-                if (rawPhone.length === 11) {
-                    var formattedPhone = '(' + rawPhone.substring(0, 2) + ') ' + rawPhone.substring(2, 7) + '-' +
-                        rawPhone.substring(7);
-                    $('#phone').val(formattedPhone);
-                }
-
-                // Validação para garantir que o campo sempre seja um número positivo
+                // Validação para garantir que o campo sempre seja um número positivo de até 2 dígitos
                 $('input[name="hourly_rate"]').on('input', function() {
                     let value = $(this).val();
-
-                    // Remover qualquer caractere que não seja número
                     value = value.replace(/[^0-9]/g, '');
-
-                    // Limita a até 2 caracteres (dois dígitos)
-                    if (value.length > 3) value = value.slice(0, 2);
-
-                    // Remover zeros à esquerda e converter para número inteiro
+                    if (value.length > 2) value = value.slice(0, 2);
                     value = parseInt(value, 10);
-
-                    // Garantir que o valor seja positivo e corrigir se necessário
                     if (isNaN(value) || value < 0) value = 0;
-
-                    // Atualizar o valor do campo para garantir que é um número positivo e sem zeros à esquerda
                     $(this).val(value);
                 });
             });

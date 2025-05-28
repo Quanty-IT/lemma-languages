@@ -15,7 +15,6 @@ class StudentController extends Controller
         return view('administrator.students.index', compact('students'));
     }
 
-
     public function create()
     {
         $teachers = Teacher::all();
@@ -30,8 +29,8 @@ class StudentController extends Controller
             'name' => 'required|string',
             'phone' => 'required|string|max:11|unique:students,phone',
             'email' => 'required|email|unique:students,email',
-            'availability' => 'array',
             'language' => 'required|string',
+            'availability' => 'required|array',
             'goal' => 'required|string',
             'notes' => 'nullable|string|max:300',
             'teacher_id' => 'required|exists:teachers,id',
@@ -41,28 +40,30 @@ class StudentController extends Controller
         return redirect()->route('administrator.students.index')->with('success', 'Aluno cadastrado com sucesso!');
     }
 
-    public function show(Student $student)
+    public function show($id)
     {
-        $student->load('teacher');
+        $student = Student::with('teacher')->findOrFail($id);
         return view('administrator.students.show', compact('student'));
     }
 
-    public function edit(Student $student)
+    public function edit($id)
     {
+        $student = Student::findOrFail($id);
         $teachers = Teacher::all();
         return view('administrator.students.edit', compact('student', 'teachers'));
     }
 
-    public function update(Request $request, Student $student)
+    public function update(Request $request, $id)
     {
+        $student = Student::findOrFail($id);
         $request->merge(['phone' => sanitizePhoneNumber($request->input('phone'))]);
 
         $data = $request->validate([
             'name' => 'required|string',
             'phone' => 'required|string|max:11|unique:students,phone,' . $student->id,
             'email' => 'required|email|unique:students,email,' . $student->id,
-            'availability' => 'required|array',
             'language' => 'required|string',
+            'availability' => 'required|array',
             'goal' => 'required|string',
             'notes' => 'nullable|string|max:300',
             'teacher_id' => 'required|exists:teachers,id',
@@ -72,8 +73,9 @@ class StudentController extends Controller
         return redirect()->route('administrator.students.index')->with('success', 'Aluno atualizado com sucesso!');
     }
 
-    public function destroy(Student $student)
+    public function destroy($id)
     {
+        $student = Student::findOrFail($id);
         $student->delete();
         return redirect()->route('administrator.students.index')->with('success', 'Aluno excluído com sucesso!');
     }

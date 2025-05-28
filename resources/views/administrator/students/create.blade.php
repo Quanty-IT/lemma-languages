@@ -2,7 +2,7 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
-    <link rel="stylesheet" href="/css/administrator/students/create.css">
+    <link rel="stylesheet" href="/css/administrator/students/form.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -51,41 +51,64 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Idiomas</label>
-                    @foreach (['ingles', 'espanhol', 'frances', 'italiano'] as $lang)
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" class="form-check-input filter-language" id="lang-{{ $lang }}"
-                                name="languages[]" value="{{ $lang }}"
-                                {{ in_array($lang, old('languages', [])) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="lang-{{ $lang }}">{{ ucfirst($lang) }}</label>
-                        </div>
-                    @endforeach
+                    <label class="form-label">Idioma</label>
+                    @php
+                        $languageOptions = [
+                            'english' => 'Inglês',
+                            'spanish' => 'Espanhol',
+                            'french' => 'Francês',
+                            'italian' => 'Italiano',
+                            'portuguese' => 'Português',
+                        ];
+                    @endphp
+
+                    <div class="d-flex flex-wrap gap-3">
+                        @foreach ($languageOptions as $lang => $label)
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input filter-language" id="lang-{{ $lang }}"
+                                    name="language" value="{{ $lang }}"
+                                    {{ old('language') === $lang ? 'checked' : '' }}>
+                                <label class="form-check-label" for="lang-{{ $lang }}">{{ $label }}</label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Disponibilidade</label>
-                    @foreach (['manha', 'tarde', 'noite'] as $period)
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" class="form-check-input filter-availability"
-                                id="disp-{{ $period }}" name="availability[]" value="{{ $period }}"
-                                {{ in_array($period, old('availability', [])) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="disp-{{ $period }}">{{ ucfirst($period) }}</label>
-                        </div>
-                    @endforeach
+                    @php
+                        $availabilityOptions = [
+                            'morning' => 'Manhã',
+                            'afternoon' => 'Tarde',
+                            'evening' => 'Noite',
+                        ];
+                    @endphp
+
+                    <div class="d-flex flex-wrap gap-3">
+                        @foreach ($availabilityOptions as $period => $label)
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input filter-availability"
+                                    id="disp-{{ $period }}" name="availability[]" value="{{ $period }}"
+                                    {{ in_array($period, old('availability', [])) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="disp-{{ $period }}">{{ $label }}</label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
-                <select name="teacher_id" class="form-select" required>
-                    @if ($teachers->isEmpty())
-                        <option value="">Nenhum professor no horário selecionado</option>
-                    @else
-                        <option value="">Selecione</option>
-                        @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                        @endforeach
-                    @endif
-                </select>
-
-
+                <div class="mb-3">
+                    <label class="form-label">Professor</label>
+                    <select name="teacher_id" id="teacher-select" class="form-select" required>
+                        @if ($teachers->isEmpty())
+                            <option value="">Nenhum professor no horário selecionado</option>
+                        @else
+                            <option value="">Selecione</option>
+                            @foreach ($teachers as $teacher)
+                                <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">Objetivo</label>
@@ -94,7 +117,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Observações</label>
-                    <textarea class="form-control" name="observation" rows="3">{{ old('observation') }}</textarea>
+                    <textarea class="form-control" name="notes" rows="3">{{ old('notes') }}</textarea>
                 </div>
 
                 <div class="button-container">
@@ -105,8 +128,10 @@
 
         <script>
             $(document).ready(function() {
+                // Máscara para telefone
                 $('#phone').mask('(00) 00000-0000');
 
+                // Atualiza os professores conforme os filtros
                 function updateTeacherOptions() {
                     let selectedLanguages = $('.filter-language:checked').map(function() {
                         return this.value;
@@ -156,6 +181,5 @@
                 $('.filter-language, .filter-availability').on('change', updateTeacherOptions);
             });
         </script>
-
     </body>
 @endsection

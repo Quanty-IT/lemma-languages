@@ -2,7 +2,10 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
-    <link rel="stylesheet" href="/css/administrator/teachers/show.css">
+    <link rel="stylesheet" href="/css/administrator/teachers/form.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <body>
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -17,8 +20,8 @@
         </div>
 
         <div class="form-container">
-
             <div class="student-info">
+
                 <div class="info-row">
                     <div class="info-item">
                         <label class="info-label">Nome</label>
@@ -26,22 +29,46 @@
                     </div>
                 </div>
 
-                <div class="info-row">
-                    <div class="info-item">
-                        <label class="info-label">Telefone</label>
-                        <div class="info-value">{{ $teacher->phone ?: 'Não informado' }}</div>
+                <div class="mb-3 d-flex gap-3">
+                    <div class="flex-fill">
+                        <label class="form-label">Telefone</label>
+                        <div class="form-control bg-light p-0">
+                            <input type="text" id="phone" class="form-control border-0 bg-light"
+                                value="{{ $teacher->phone }}" readonly>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <label class="info-label">Email</label>
-                        <div class="info-value">{{ $teacher->email ?: 'Não informado' }}</div>
+                    <div class="flex-fill">
+                        <label class="form-label">Email</label>
+                        <div class="form-control bg-light">{{ $teacher->email ?: 'Não informado' }}</div>
                     </div>
                 </div>
+
+                @php
+                    $languageLabels = [
+                        'english' => 'Inglês',
+                        'spanish' => 'Espanhol',
+                        'french' => 'Francês',
+                        'italian' => 'Italiano',
+                        'portuguese' => 'Português',
+                    ];
+                    $availabilityLabels = [
+                        'morning' => 'Manhã',
+                        'afternoon' => 'Tarde',
+                        'evening' => 'Noite',
+                    ];
+                @endphp
 
                 <div class="info-row">
                     <div class="info-item">
                         <label class="info-label">Idiomas</label>
-                        <div class="info-value">
-                            {{ $teacher->languages ? implode(', ', array_map('ucfirst', $teacher->languages)) : '—' }}
+                        <div class="info-value d-flex flex-wrap gap-3">
+                            @if (!empty($teacher->languages))
+                                @foreach ($teacher->languages as $lang)
+                                    <span>{{ $languageLabels[$lang] ?? ucfirst($lang) }}</span>
+                                @endforeach
+                            @else
+                                —
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -49,8 +76,14 @@
                 <div class="info-row">
                     <div class="info-item">
                         <label class="info-label">Disponibilidade</label>
-                        <div class="info-value">
-                            {{ $teacher->availability ? implode(', ', array_map('ucfirst', $teacher->availability)) : '—' }}
+                        <div class="info-value d-flex flex-wrap gap-3">
+                            @if (!empty($teacher->availability))
+                                @foreach ($teacher->availability as $period)
+                                    <span>{{ $availabilityLabels[$period] ?? ucfirst($period) }}</span>
+                                @endforeach
+                            @else
+                                —
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -94,5 +127,11 @@
                 </form>
             </div>
         </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#phone').mask('(00) 00000-0000');
+            });
+        </script>
     </body>
 @endsection
