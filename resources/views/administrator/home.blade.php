@@ -19,6 +19,23 @@
             <h2 class="fw-bold border-bottom pb-2 mt-4">Home</h2>
         </div>
 
+        @php
+            $months = [
+                'january' => 'janeiro',
+                'february' => 'fevereiro',
+                'march' => 'março',
+                'april' => 'abril',
+                'may' => 'maio',
+                'june' => 'junho',
+                'july' => 'julho',
+                'august' => 'agosto',
+                'september' => 'setembro',
+                'october' => 'outubro',
+                'november' => 'novembro',
+                'december' => 'dezembro',
+            ];
+        @endphp
+
         @if ($sortedSummaries->isEmpty())
             <p>Nenhum dado encontrado.</p>
         @else
@@ -35,7 +52,7 @@
                 <div class="row-box">
                     <div class="row-content">
                         <div>{{ $summary['name'] }}</div>
-                        <div>{{ ucfirst($summary['month']) }}</div>
+                        <div>{{ $months[strtolower($summary['month'])] }}</div>
                         <div>{{ $summary['hours'] }}</div>
                         <div>{{ $summary['total_value'] }}</div>
                         <div>{{ $summary['value_professor'] }}</div>

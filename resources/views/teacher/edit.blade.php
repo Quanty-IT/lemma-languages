@@ -12,36 +12,56 @@
         <input type="text" value="{{ $student->name }}" disabled class="form-control" />
 
         <label>Idioma</label>
-        <select name="language" id="language" required>
-            <option value="">Selecione o idioma</option>
+        @php
+            $languageNames = [
+                'english' => 'Inglês',
+                'spanish' => 'Espanhol',
+                'french' => 'Francês',
+                'german' => 'Alemão',
+                'italian' => 'Italiano',
+                'portuguese' => 'Português',
+            ];
+            $studentLanguage = $student->language;
+        @endphp
+
+        @if (in_array($studentLanguage, $teacherLanguages))
+            <select name="language" id="language" disabled>
+                <option value="{{ $studentLanguage }}" selected>
+                    {{ $languageNames[$studentLanguage] ?? $studentLanguage }}
+                </option>
+            </select>
+            <input type="hidden" name="language" value="{{ $studentLanguage }}">
+        @else
+            <p><em>Idioma do aluno não está disponível entre os idiomas do professor.</em></p>
+        @endif
+
+        <label>Mês</label>
+        <select name="month" required>
             @php
-                $availableLanguages = array_intersect($teacherLanguages, $student->languages);
+                $months = [
+                    'january' => 'janeiro',
+                    'february' => 'fevereiro',
+                    'march' => 'março',
+                    'april' => 'abril',
+                    'may' => 'maio',
+                    'june' => 'junho',
+                    'july' => 'julho',
+                    'august' => 'agosto',
+                    'september' => 'setembro',
+                    'october' => 'outubro',
+                    'november' => 'novembro',
+                    'december' => 'dezembro',
+                ];
             @endphp
-            @foreach ($availableLanguages as $language)
-                <option value="{{ $language }}" {{ old('language', $lesson->language) == $language ? 'selected' : '' }}>
-                    {{ $language }}
+            @foreach ($months as $key => $label)
+                <option value="{{ $key }}" {{ old('month', $lesson->month) == $key ? 'selected' : '' }}>
+                    {{ $label }}
                 </option>
             @endforeach
         </select>
 
-        <label>Mês</label>
-        <select name="month" required>
-            <option value="january" {{ old('month', $lesson->month) == 'january' ? 'selected' : '' }}>Janeiro</option>
-            <option value="february" {{ old('month', $lesson->month) == 'february' ? 'selected' : '' }}>Fevereiro</option>
-            <option value="march" {{ old('month', $lesson->month) == 'march' ? 'selected' : '' }}>Março</option>
-            <option value="april" {{ old('month', $lesson->month) == 'april' ? 'selected' : '' }}>Abril</option>
-            <option value="may" {{ old('month', $lesson->month) == 'may' ? 'selected' : '' }}>Maio</option>
-            <option value="june" {{ old('month', $lesson->month) == 'june' ? 'selected' : '' }}>Junho</option>
-            <option value="july" {{ old('month', $lesson->month) == 'july' ? 'selected' : '' }}>Julho</option>
-            <option value="august" {{ old('month', $lesson->month) == 'august' ? 'selected' : '' }}>Agosto</option>
-            <option value="september" {{ old('month', $lesson->month) == 'september' ? 'selected' : '' }}>Setembro</option>
-            <option value="october" {{ old('month', $lesson->month) == 'october' ? 'selected' : '' }}>Outubro</option>
-            <option value="november" {{ old('month', $lesson->month) == 'november' ? 'selected' : '' }}>Novembro</option>
-            <option value="december" {{ old('month', $lesson->month) == 'december' ? 'selected' : '' }}>Dezembro</option>
-        </select>
-
         <label>Horas</label>
-        <input type="number" name="hours" id="hours" min="0" max="99"
+        <input type="number" name="hours" id="hours" min="1" max="99"
             value="{{ old('hours', $lesson->hours) }}" required>
 
         <label>Conteúdo</label>
@@ -57,7 +77,7 @@
                 value = value.replace(/[^0-9]/g, '');
                 if (value.length > 2) value = value.slice(0, 2);
                 value = parseInt(value, 10);
-                if (isNaN(value) || value < 0) value = 0;
+                if (isNaN(value) || value < 1) value = 1;
                 this.value = value;
             });
         });

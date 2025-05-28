@@ -7,41 +7,42 @@
         <a href="{{ route('teacher.home') }}" class="btn btn-primary">Home</a>
         <br>
 
-        <label>Aluno</label>
+        <label for="student_id">Aluno</label>
         <select name="student_id" id="student_id" required>
             @foreach ($students as $student)
-                <option value="{{ $student->id }}" data-languages="{{ json_encode($student->languages) }}">
+                <option value="{{ $student->id }}" data-language="{{ $student->language }}">
                     {{ $student->name }}
                 </option>
             @endforeach
         </select>
 
-        <label>Idioma</label>
-        <select name="language" id="language" required>
-            <option value="">Selecione o idioma</option>
+        <label for="language">Idioma</label>
+        <select name="language" id="language" required disabled>
         </select>
 
-        <label>Mês</label>
-        <select name="month" required>
-            <option value="january">Janeiro</option>
-            <option value="february">Fevereiro</option>
-            <option value="march">Março</option>
-            <option value="april">Abril</option>
-            <option value="may">Maio</option>
-            <option value="june">Junho</option>
-            <option value="july">Julho</option>
-            <option value="august">Agosto</option>
-            <option value="september">Setembro</option>
-            <option value="october">Outubro</option>
-            <option value="november">Novembro</option>
-            <option value="december">Dezembro</option>
+        <input type="hidden" name="language" id="language_hidden" value="">
+
+        <label for="month">Mês</label>
+        <select name="month" id="month" required>
+            <option value="january">janeiro</option>
+            <option value="february">fevereiro</option>
+            <option value="march">março</option>
+            <option value="april">abril</option>
+            <option value="may">maio</option>
+            <option value="june">junho</option>
+            <option value="july">julho</option>
+            <option value="august">agosto</option>
+            <option value="september">setembro</option>
+            <option value="october">outubro</option>
+            <option value="november">novembro</option>
+            <option value="december">dezembro</option>
         </select>
 
-        <label>Horas</label>
-        <input type="number" name="hours" id="hours" min="0" max="99" required>
+        <label for="hours">Horas</label>
+        <input type="number" name="hours" id="hours" min="1" max="99" required>
 
-        <label>Conteúdo</label>
-        <textarea name="content" required></textarea>
+        <label for="content">Conteúdo</label>
+        <textarea name="content" id="content" required></textarea>
 
         <button type="submit">Registrar</button>
     </form>
@@ -50,44 +51,50 @@
         const teacherLanguages = @json($teacherLanguages);
         const studentSelect = document.getElementById('student_id');
         const languageSelect = document.getElementById('language');
+        const languageHidden = document.getElementById('language_hidden');
 
-        function updateLanguages() {
+        const languageNames = {
+            english: 'Inglês',
+            spanish: 'Espanhol',
+            french: 'Francês',
+            german: 'Alemão',
+            italian: 'Italiano',
+            portuguese: 'Português',
+        };
+
+        function updateLanguage() {
             const selectedOption = studentSelect.options[studentSelect.selectedIndex];
-            const studentLanguages = JSON.parse(selectedOption.getAttribute('data-languages'));
+            const studentLanguage = selectedOption.getAttribute('data-language');
 
-            // Interseção entre os arrays (professor & aluno)
-            const availableLanguages = teacherLanguages.filter(lang => studentLanguages.includes(lang));
+            languageSelect.innerHTML = '';
 
-            // Limpar select e colocar a opção padrão
-            languageSelect.innerHTML = '<option value="">Selecione o idioma</option>';
-
-            availableLanguages.forEach(lang => {
+            if (teacherLanguages.includes(studentLanguage)) {
                 const option = document.createElement('option');
-                option.value = lang;
-                option.textContent = lang;
+                option.value = studentLanguage;
+                option.textContent = languageNames[studentLanguage] || studentLanguage;
+                option.selected = true;
                 languageSelect.appendChild(option);
-            });
+                languageHidden.value = studentLanguage;
+            } else {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'Nenhum idioma disponível';
+                languageSelect.appendChild(option);
+                languageHidden.value = '';
+            }
         }
 
-        studentSelect.addEventListener('change', updateLanguages);
+        studentSelect.addEventListener('change', updateLanguage);
 
-        // Inicializa ao carregar a página
-        document.addEventListener("DOMContentLoaded", function() {
-            updateLanguages();
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLanguage();
 
-            // Validação para garantir que o campo horas seja número positivo e max 2 dígitos
             document.getElementById('hours').addEventListener('input', function() {
                 let value = this.value;
-
-                // Remove tudo que não for número
                 value = value.replace(/[^0-9]/g, '');
-
-                // Limita a 2 caracteres
                 if (value.length > 2) value = value.slice(0, 2);
-
                 value = parseInt(value, 10);
-                if (isNaN(value) || value < 0) value = 0;
-
+                if (isNaN(value) || value < 1) value = 1;
                 this.value = value;
             });
         });
