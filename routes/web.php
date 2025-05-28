@@ -9,6 +9,11 @@ use App\Http\Controllers\Administrators\TeacherController;
 use App\Http\Controllers\Administrators\StudentController;
 use App\Http\Controllers\Teachers\LessonController;
 
+// Rota raiz redireciona para login
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 // Rota de login
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('auth');
@@ -30,7 +35,7 @@ Route::post('/set-password', [SetPasswordController::class, 'storePassword'])->n
 
 // Rotas para os administradores
 Route::middleware(['auth:administrator'])->group(function () {
-    Route::get('/', [AdministratorController::class, 'home'])->name('administrator.home');
+    Route::get('/admin', [AdministratorController::class, 'home'])->name('administrator.home');
 
     // Rotas de registro de professores
     Route::get('/teachers', [TeacherController::class, 'index'])->name('administrator.teachers.index');
@@ -56,17 +61,11 @@ Route::middleware(['auth:administrator'])->group(function () {
 Route::middleware(['auth:teacher'])->group(function () {
     Route::get('/teacher', [TeacherController::class, 'home'])->name('teacher.home');
 
-    // Rota para criar nova aula
-    Route::get('/teacher/create', [LessonController::class, 'create'])->name('lesson.create');
-    Route::post('/teacher/store', [LessonController::class, 'store'])->name('lesson.store');
-
-    // Rota para editar e atualizar aula
-    Route::get('/teacher/{lesson}/edit', [LessonController::class, 'edit'])->name('lesson.edit');
-    Route::put('/teacher/{lesson}', [LessonController::class, 'update'])->name('lesson.update');
-
-    // Rota para deletar aula
-    Route::delete('/teacher/{lesson}', [LessonController::class, 'destroy'])->name('lesson.destroy');
-
-    // Rota para visualizar registros de aulas de um aluno
-    Route::get('/teacher/student/{student}', [LessonController::class, 'show'])->name('teacher.show');
+    // Rotas de registro de aulas
+    Route::get('/create', [LessonController::class, 'create'])->name('lesson.create');
+    Route::post('/store', [LessonController::class, 'store'])->name('lesson.store');
+    Route::get('/{lesson}/edit', [LessonController::class, 'edit'])->name('lesson.edit');
+    Route::put('/{lesson}', [LessonController::class, 'update'])->name('lesson.update');
+    Route::delete('/{lesson}', [LessonController::class, 'destroy'])->name('lesson.destroy');
+    Route::get('/student/{student}', [LessonController::class, 'show'])->name('teacher.show');
 });

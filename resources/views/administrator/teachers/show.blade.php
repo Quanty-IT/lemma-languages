@@ -24,8 +24,8 @@
 
                 <div class="info-row">
                     <div class="info-item">
-                        <label class="info-label">Nome</label>
-                        <div class="info-value">{{ $teacher->name }}</div>
+                        <label class="form-label">Nome</label>
+                        <div class="form-control bg-light">{{ $teacher->name }}</div>
                     </div>
                 </div>
 
@@ -60,8 +60,8 @@
 
                 <div class="info-row">
                     <div class="info-item">
-                        <label class="info-label">Idiomas</label>
-                        <div class="info-value d-flex flex-wrap gap-3">
+                        <label class="form-label">Idiomas</label>
+                        <div class="form-control bg-light d-flex flex-wrap gap-3" style="min-height:auto;">
                             @if (!empty($teacher->languages))
                                 @foreach ($teacher->languages as $lang)
                                     <span>{{ $languageLabels[$lang] ?? ucfirst($lang) }}</span>
@@ -75,8 +75,8 @@
 
                 <div class="info-row">
                     <div class="info-item">
-                        <label class="info-label">Disponibilidade</label>
-                        <div class="info-value d-flex flex-wrap gap-3">
+                        <label class="form-label">Disponibilidade</label>
+                        <div class="form-control bg-light d-flex flex-wrap gap-3" style="min-height:auto;">
                             @if (!empty($teacher->availability))
                                 @foreach ($teacher->availability as $period)
                                     <span>{{ $availabilityLabels[$period] ?? ucfirst($period) }}</span>
@@ -90,27 +90,27 @@
 
                 <div class="info-row">
                     <div class="info-item">
-                        <label class="info-label">Valor da hora</label>
-                        <div class="info-value">R$ {{ number_format($teacher->hourly_rate, 2, ',', '.') }}</div>
+                        <label class="form-label">Valor da hora</label>
+                        <div class="form-control bg-light">R$ {{ number_format($teacher->hourly_rate, 2, ',', '.') }}</div>
                     </div>
                     <div class="info-item">
-                        <label class="info-label">Repasse</label>
-                        <div class="info-value">{{ $teacher->commission }}%</div>
+                        <label class="form-label">Repasse</label>
+                        <div class="form-control bg-light">{{ $teacher->commission }}%</div>
                     </div>
                 </div>
 
                 <div class="info-row">
                     <div class="info-item">
-                        <label class="info-label">Chave Pix</label>
-                        <div class="info-value">{{ $teacher->pix ?: 'Não informado' }}</div>
+                        <label class="form-label">Chave Pix</label>
+                        <div class="form-control bg-light">{{ $teacher->pix ?: 'Não informado' }}</div>
                     </div>
                 </div>
 
                 @if ($teacher->notes)
                     <div class="info-row">
                         <div class="info-item">
-                            <label class="info-label">Observações</label>
-                            <div class="info-value">{{ $teacher->notes }}</div>
+                            <label class="form-label">Observações</label>
+                            <div class="form-control bg-light">{{ $teacher->notes }}</div>
                         </div>
                     </div>
                 @endif
