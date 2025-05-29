@@ -38,8 +38,8 @@ class ForgotPasswordController extends Controller
             }
         }
 
-        // Gerar código alfanumérico
-        $code = strtoupper(Str::random(6));
+        // Gerar código de recuperação
+        $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         $user->reset_code = $code;
         $user->reset_code_expires_at = now()->addMinutes(30);
         $user->save();

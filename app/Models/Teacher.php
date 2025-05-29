@@ -26,6 +26,7 @@ class Teacher extends Model implements Authenticatable
         'password',
         'reset_code',
         'reset_code_expires_at',
+        'is_first_access',
     ];
 
     protected $hidden = [
@@ -36,6 +37,7 @@ class Teacher extends Model implements Authenticatable
         'languages' => 'array',
         'availability' => 'array',
         'reset_code_expires_at' => 'datetime',
+        'is_first_access' => 'boolean',
     ];
 
     public $timestamps = true;

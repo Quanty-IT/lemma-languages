@@ -2,41 +2,136 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
+    <link rel="stylesheet" href="/css/administrator/teachers/form.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <body>
-        <h2>Visualizar cadastro</h2>
-        <hr>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex gap-3">
+                <a href="{{ route('administrator.home') }}" class="text-decoration-none text-muted">Home</a>
+                <a href="{{ route('administrator.teachers.index') }}" class="text-decoration-none text-muted">Listar</a>
+            </div>
+            <form action="{{ route('logout') }}" method="POST" class="mb-0">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+            </form>
+        </div>
 
-        <a href="{{ route('administrator.home') }}">Home</a><br>
-        <a href="{{ route('administrator.teachers.index') }}">Listar</a>
+        <div class="form-container">
+            <div class="student-info">
 
-        <p><strong>Nome:</strong> {{ $teacher->name }}</p>
-        <p><strong>Telefone:</strong> {{ $teacher->phone }}</p>
-        <p><strong>Email:</strong> {{ $teacher->email }}</p>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="form-label">Nome</label>
+                        <div class="form-control bg-light">{{ $teacher->name }}</div>
+                    </div>
+                </div>
 
-        <p><strong>Idiomas:</strong>
-            {{ implode(', ', array_map(fn($lang) => ucfirst($lang), $teacher->languages ?? [])) }}
-        </p>
+                <div class="mb-3 d-flex gap-3">
+                    <div class="flex-fill">
+                        <label class="form-label">Telefone</label>
+                        <div class="form-control bg-light p-0">
+                            <input type="text" id="phone" class="form-control border-0 bg-light"
+                                value="{{ $teacher->phone }}" readonly>
+                        </div>
+                    </div>
+                    <div class="flex-fill">
+                        <label class="form-label">Email</label>
+                        <div class="form-control bg-light">{{ $teacher->email ?: 'Não informado' }}</div>
+                    </div>
+                </div>
 
-        <p><strong>Disponibilidade:</strong>
-            {{ implode(', ', array_map(fn($slot) => ucfirst($slot), $teacher->availability ?? [])) }}
-        </p>
+                @php
+                    $languageLabels = [
+                        'english' => 'Inglês',
+                        'spanish' => 'Espanhol',
+                        'french' => 'Francês',
+                        'italian' => 'Italiano',
+                        'portuguese' => 'Português',
+                    ];
+                    $availabilityLabels = [
+                        'morning' => 'Manhã',
+                        'afternoon' => 'Tarde',
+                        'evening' => 'Noite',
+                    ];
+                @endphp
 
-        <p><strong>Valor da hora:</strong> R$ {{ number_format($teacher->hourly_rate, 2, ',', '.') }}</p>
-        <p><strong>Repasse:</strong> {{ $teacher->commission }}%</p>
-        <p><strong>Chave Pix:</strong> {{ $teacher->pix }}</p>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="form-label">Idiomas</label>
+                        <div class="form-control bg-light d-flex flex-wrap gap-3" style="min-height:auto;">
+                            @if (!empty($teacher->languages))
+                                @foreach ($teacher->languages as $lang)
+                                    <span>{{ $languageLabels[$lang] ?? ucfirst($lang) }}</span>
+                                @endforeach
+                            @else
+                                —
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
-        @if ($teacher->notes)
-            <p><strong>Observações:</strong> {{ $teacher->notes }}</p>
-        @endif
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="form-label">Disponibilidade</label>
+                        <div class="form-control bg-light d-flex flex-wrap gap-3" style="min-height:auto;">
+                            @if (!empty($teacher->availability))
+                                @foreach ($teacher->availability as $period)
+                                    <span>{{ $availabilityLabels[$period] ?? ucfirst($period) }}</span>
+                                @endforeach
+                            @else
+                                —
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
-        <a href="{{ route('administrator.teachers.edit', $teacher->id) }}">Editar</a>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="form-label">Valor da hora</label>
+                        <div class="form-control bg-light">R$ {{ number_format($teacher->hourly_rate, 2, ',', '.') }}</div>
+                    </div>
+                    <div class="info-item">
+                        <label class="form-label">Repasse</label>
+                        <div class="form-control bg-light">{{ $teacher->commission }}%</div>
+                    </div>
+                </div>
 
-        <form action="{{ route('administrator.teachers.destroy', $teacher->id) }}" method="POST" style="display:inline;"
-            onsubmit="return confirm('Tem certeza que deseja excluir este cadastro?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" style="background:none; border:none; color:red; cursor:pointer;">Excluir</button>
-        </form>
+                <div class="info-row">
+                    <div class="info-item">
+                        <label class="form-label">Chave Pix</label>
+                        <div class="form-control bg-light">{{ $teacher->pix ?: 'Não informado' }}</div>
+                    </div>
+                </div>
+
+                @if ($teacher->notes)
+                    <div class="info-row">
+                        <div class="info-item">
+                            <label class="form-label">Observações</label>
+                            <div class="form-control bg-light">{{ $teacher->notes }}</div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <div class="button-container">
+                <a href="{{ route('administrator.teachers.edit', $teacher->id) }}" class="btn btn-primary">Editar</a>
+
+                <form action="{{ route('administrator.teachers.destroy', $teacher->id) }}" method="POST"
+                    style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cadastro?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#phone').mask('(00) 00000-0000');
+            });
+        </script>
     </body>
 @endsection

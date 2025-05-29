@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="/css/auth/login.css">
+
     <div class="login-container">
         <div class="container">
             <h2 style="text-align: center;">Nova Senha</h2>

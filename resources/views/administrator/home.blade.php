@@ -2,45 +2,64 @@
 
 @section('content')
     <link rel="icon" href="https://cdn.interago.com.br/img/png/w_0_q_8/429/mc/Logo%20e%20favicon//lemma_favicon">
-    <link rel="stylesheet" href="{{ asset('css/administrator/home.css') }}">
+    <link rel="stylesheet" href="/css/administrator/home.css">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="title">Home</div>
+    <div class="p-5">
+        <div class="position-relative mb-3">
+            <a href="{{ route('administrator.teachers.index') }}" class="text-decoration-none text-muted">Professores</a>
+            <a href="{{ route('administrator.students.index') }}" class="text-decoration-none text-muted ms-4">Alunos</a>
 
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-danger">Logout</button>
-        </form>
-    </div>
+            <div class="position-absolute top-0 end-0 text-end d-flex flex-column gap-3">
+                <form action="{{ route('logout') }}" method="POST" class="mb-2">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                </form>
+            </div>
 
-    <div class="center-box">
-        <a href="{{ route('administrator.teachers.index') }}">
-            <button class="btn">Professores</button>
-        </a>
-        <a href="{{ route('administrator.students.index') }}">
-            <button class="btn">Alunos</button>
-        </a>
-    </div>
-
-    <hr>
-
-    <div class="overview">
-        <h3>Visão Geral</h3>
-
-        <div class="stat">
-            <span>Professores cadastrados:</span>
-            <span>: <strong>{{ $countTeachers }}</strong></span>
+            <h2 class="fw-bold border-bottom pb-2 mt-4">Home</h2>
         </div>
 
-        <div class="stat">
-            <span>Alunos cadastrados:</span>
-            <span>: <strong>{{ $countStudents }}</strong></span>
-        </div>
-    </div>
+        @php
+            $months = [
+                'january' => 'janeiro',
+                'february' => 'fevereiro',
+                'march' => 'março',
+                'april' => 'abril',
+                'may' => 'maio',
+                'june' => 'junho',
+                'july' => 'julho',
+                'august' => 'agosto',
+                'september' => 'setembro',
+                'october' => 'outubro',
+                'november' => 'novembro',
+                'december' => 'dezembro',
+            ];
+        @endphp
 
-    <footer>
-        <div class="footer">
-            <p>© 2025 Lemma - Soluções em Linguística. - QuantIT Todos os direitos reservados.</p>
-        </div>
-    </footer>
+        @if ($sortedSummaries->isEmpty())
+            <p>Nenhum dado encontrado.</p>
+        @else
+            <div class="table-header bg-white">
+                <div>Professor</div>
+                <div>Mês</div>
+                <div>Horas</div>
+                <div>Valor Total</div>
+                <div>Valor Professor</div>
+                <div>Valor Empresa</div>
+            </div>
+
+            @foreach ($sortedSummaries as $summary)
+                <div class="row-box">
+                    <div class="row-content">
+                        <div>{{ $summary['name'] }}</div>
+                        <div>{{ $months[strtolower($summary['month'])] }}</div>
+                        <div>{{ $summary['hours'] }}</div>
+                        <div>{{ $summary['total_value'] }}</div>
+                        <div>{{ $summary['value_professor'] }}</div>
+                        <div>{{ $summary['value_company'] }}</div>
+                    </div>
+                </div>
+            @endforeach
+        @endif
+    </div>
 @endsection

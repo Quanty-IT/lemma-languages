@@ -23,30 +23,36 @@ class TeacherController extends Controller
         return view('administrator.teachers.index', compact('teachers'));
     }
 
-    public function create()
+
+    public function create(Request $request)
     {
-        return view('administrator.teachers.create');
+        $selectedAvailability = $request->input('availability');
+
+        if ($selectedAvailability) {
+            $teachers = Teacher::whereJsonContains('availability', $selectedAvailability)->get();
+        } else {
+            $teachers = collect();
+        }
+
+        return view('administrator.teachers.create', compact('teachers'));
     }
 
     public function store(Request $request)
     {
-        // Limpa o telefone antes de validar
-        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
-        $request->merge(['phone' => $rawPhone]);
+        $request->merge(['phone' => sanitizePhoneNumber($request->input('phone'))]);
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'phone' => 'required|string|max:11|unique:teachers,phone',
             'email' => 'required|email|unique:teachers,email',
             'availability' => 'required|array',
             'languages' => 'required|array',
-            'hourly_rate' => 'required|numeric|min:0',
+            'hourly_rate' => 'required|numeric',
             'commission' => 'required|numeric',
             'pix' => 'required|string|unique:teachers,pix',
-            'notes' => 'nullable|string|max:1000',
+            'notes' => 'nullable|string|max:300',
         ]);
 
-        // Gera a senha padrão
         $firstName = ucfirst(strtolower(explode(' ', trim($request->name))[0]));
         $generatedPassword = $firstName . '@1234';
 
@@ -82,20 +88,18 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::findOrFail($id);
 
-        // Limpa o telefone antes de validar
-        $rawPhone = preg_replace('/\D/', '', $request->input('phone'));
-        $request->merge(['phone' => $rawPhone]);
+        $request->merge(['phone' => sanitizePhoneNumber($request->input('phone'))]);
 
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'phone' => 'required|string|max:11|unique:teachers,phone,' . $teacher->id,
             'email' => 'required|email|unique:teachers,email,' . $teacher->id,
             'availability' => 'required|array',
             'languages' => 'required|array',
-            'hourly_rate' => 'required|numeric|min:0',
+            'hourly_rate' => 'required|numeric',
             'commission' => 'required|numeric',
-            'pix' => 'required|string|unique:teachers,pix' . $teacher->id,
-            'notes' => 'nullable|string|max:1000',
+            'pix' => 'required|string|unique:teachers,pix,' . $teacher->id,
+            'notes' => 'nullable|string|max:300',
         ]);
 
         $teacher->update([
