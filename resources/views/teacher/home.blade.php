@@ -7,7 +7,7 @@
         <div class="position-relative mb-4">
             <h2 class="fw-bold border-bottom pb-2">Home</h2>
 
-            <div class="position-absolute top-0 end-0 text-end d-flex flex-column gap-2">
+            <div class="position-absolute top-0 end-0 text-end d-flex flex-column gap-3 mt-1">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
@@ -15,15 +15,9 @@
             </div>
         </div>
 
-        <div class="mb-4">
-            <a href="{{ route('lesson.create') }}" class="btn btn-primary">+ Novo Registro</a>
-        </div>
-
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-
-        <h4 class="fw-semibold mb-3">Alunos com Registro de Aulas</h4>
 
         @if ($students && $students->isNotEmpty())
             <div class="d-flex flex-column gap-3">

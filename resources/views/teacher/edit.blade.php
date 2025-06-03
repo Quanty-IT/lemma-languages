@@ -7,7 +7,8 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="d-flex gap-3">
             <a href="{{ route('teacher.home') }}" class="text-decoration-none text-muted">Home</a>
-            <a href="{{ route('lesson.create') }}" class="text-decoration-none text-muted">Novo Registro</a>
+            <a href="{{ route('lesson.create', ['id' => $student->id]) }}"
+                class="text-decoration-none text-muted">Registrar</a>
         </div>
         <form action="{{ route('logout') }}" method="POST" class="mb-0">
             @csrf
