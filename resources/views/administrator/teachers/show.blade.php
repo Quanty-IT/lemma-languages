@@ -118,7 +118,6 @@
 
             <div class="button-container">
                 <a href="{{ route('administrator.teachers.edit', $teacher->id) }}" class="btn btn-primary">Editar</a>
-
                 <form action="{{ route('administrator.teachers.destroy', $teacher->id) }}" method="POST"
                     style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cadastro?');">
                     @csrf
