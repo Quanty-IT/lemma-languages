@@ -1,27 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card">
-        <h1>Definir senha</h1>
-        <form method="POST" action="{{ route('set.password.store') }}">
-            @csrf
-            <input type="hidden" name="email" value="{{ $email }}">
+    <link rel="stylesheet" href="/css/auth/login.css">
 
-            <label for="password">Nova Senha</label>
-            <input type="password" id="password" name="password" required>
+    <div class="login-container">
+        <div class="container">
+            <h2 style="text-align: center;">Definir Senha</h2>
 
-            <label for="password_confirmation">Confirmar Nova Senha</label>
-            <input type="password" id="password_confirmation" name="password_confirmation" required>
+            <form method="POST" action="{{ route('set.password.store') }}">
+                @csrf
+                <input type="hidden" name="email" value="{{ $email }}">
 
-            <button class="btn" type="submit">Confirmar</button>
+                <div class="form-group">
+                    <label for="password">Nova Senha:</label>
+                    <input type="password" id="password" name="password" placeholder="Digite a nova senha" required>
+                </div>
 
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <p style="color: red;">
-                        {{ $error }}
-                    </p>
-                @endforeach
-            @endif
-        </form>
+                <div class="form-group">
+                    <label for="password_confirmation">Confirmar Nova Senha:</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation"
+                        placeholder="Confirme a senha" required>
+                </div>
+
+                <button type="submit">Confirmar</button>
+
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <p class="error-message">{{ $error }}</p>
+                    @endforeach
+                @endif
+            </form>
+        </div>
     </div>
 @endsection

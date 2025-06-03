@@ -1,35 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Home</h2>
+    <link rel="stylesheet" href="/css/teacher/home.css">
 
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-danger">Logout</button>
-        </form>
-    </div>
+    <div class="p-5">
+        <div class="position-relative mb-4">
+            <h2 class="fw-bold border-bottom pb-2">Home</h2>
 
-    <a href="{{ route('lesson.create') }}" class="btn btn-primary">Novo Registro</a>
-    <br><br>
-
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+            <div class="position-absolute top-0 end-0 text-end d-flex flex-column gap-3 mt-1">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                </form>
+            </div>
         </div>
-    @endif
 
-    <h2>Alunos com Registro de Aulas</h2>
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-    @if ($students && $students->isNotEmpty())
-        <ul class="list-group">
-            @foreach ($students as $student)
-                <li class="list-group-item">
-                    <a href="{{ route('teacher.show', $student->id) }}">{{ $student->name }}</a>
-                </li>
-            @endforeach
-        </ul>
-    @else
-        <p>Você ainda não cadastrou alunos.</p>
-    @endif
+        @if ($students && $students->isNotEmpty())
+            <div class="d-flex flex-column gap-3">
+                @foreach ($students as $student)
+                    <div class="card shadow-sm border-0 w-100">
+                        <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
+                                <i class="bi bi-person-circle fs-2 text-primary"></i>
+                                <div>
+                                    <h5 class="mb-0">{{ $student->name }}</h5>
+                                </div>
+                            </div>
+                            <a href="{{ route('teacher.show', $student->id) }}" class="btn btn-outline-dark">Visualizar</a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="alert alert-info">Você ainda não cadastrou alunos.</div>
+        @endif
+    </div>
 @endsection
