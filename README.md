@@ -3,6 +3,7 @@
 <p align="center">
  <a href="#technologies">Tecnologias</a> • 
  <a href="#description">Descrição</a> • 
+ <a href="#database-models">Modelagens</a> • 
  <a href="#requirements">Requisitos</a> • 
  <a href="#installation">Instalação</a> •
  <a href="#commands">Comandos</a> •
@@ -41,6 +42,18 @@ O projeto <strong>Lemma Languages</strong> é um sistema de gerenciamento projet
   <li>Cada aluno está vinculado a um único professor;</li>
   <li>Cada professor pode ser responsável por vários alunos.</li>
 </ul>
+
+<h2 id="database-models">🎲 Modelos de Banco de Dados</h2>
+
+<p><strong>Modelo Conceitual</strong></p>
+<p>
+  <img src="public/img/conceptual-database-model.jpeg" alt="Modelo Conceitual do Banco de Dados" width="100%"/>
+</p>
+
+<p><strong>Modelo Lógico</strong></p>
+<p>
+  <img src="public/img/logic-database-model.jpeg" alt="Modelo Lógico do Banco de Dados" width="100%"/>
+</p>
 
 <h2 id="requirements">📋 Requisitos</h2>
 
