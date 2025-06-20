@@ -1,17 +1,20 @@
-echo "Running composer"
-composer install --no-dev --working-dir=/var/www/html
+#!/bin/sh
+set -e  # Faz o script parar se qualquer comando falhar
 
-echo "Running npm"
-npm install --no-dev --working-dir=/var/www/html
+echo "Rodando composer..."
+composer install --optimize-autoloader --no-dev
 
-echo "Caching config..."
-php artisan config:cache
+echo "Rodando npm..."
+npm ci
 
-echo "Caching routes..."
-php artisan route:cache
+echo "Executando migrations..."
+until php artisan migrate --force; do
+  echo "Esperando o banco de dados ficar pronto..."
+  sleep 5
+done
 
-echo "Running migrations..."
-php artisan migrate --force
-
-echo "Building production assets..."
+echo "Compilando assets..."
 npm run build
+
+echo "Iniciando supervisord (nginx + php-fpm)..."
+exec /start.sh
